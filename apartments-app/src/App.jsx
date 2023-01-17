@@ -9,6 +9,7 @@ import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 import Apartments from "./components/Main/Apartments"
 import Tags from "./components/Main/Tags"
+import ErrorPage from './components/Error/ErrorPage.jsx'
 import RegisteredUsers from "./components/Main/RegisteredUsers"
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
 
     <div>
       <Routes>
+        <Route path="*" element={<ErrorPage />} />
         <Route path="/" element={<FrontPage onOpenLogin={openLoginPage} />} />
         <Route path="/login" element={<LoginPage onOpenMain={openMainPage} />} /> 
         <Route path="/main" element={<MainPage />}>
