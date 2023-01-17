@@ -4,11 +4,18 @@ import ThemeProvider from "./store/Theme/ThemeProvider"
 import Header from "./components/Header"
 import LoginPage from "./components/Login/LoginPage"
 import MainPage from "./components/Main/MainPage"
+import FrontPage from "./components/Front/FrontPage"
 import { useState } from "react"
+import { Route, Routes } from "react-router-dom"
+import Apartments from "./components/Main/Apartments"
+import Tags from "./components/Main/Tags"
+import RegisteredUsers from "./components/Main/RegisteredUsers"
 
 const App = () => {
-  const [isUserLogged, setIsUserLogged] = useState(false)
-  const toggleLogging = () => setIsUserLogged(prev => !isUserLogged)
+  const [isLoginOpened, setIsLoginOpened] = useState(false)
+  const [isMainOpened, setIsMainOpened] = useState(false)
+  const openLoginPage = () => setIsLoginOpened(prev => !prev)
+  const openMainPage = () => setIsMainOpened(prev => !prev)
 
   return (
     // <ThemeProvider>
@@ -18,11 +25,18 @@ const App = () => {
     //     <Four />
     //   </div>
     // </ThemeProvider>
-    <>
-    <button onClick={toggleLogging} className="px-10 py-2 rounded-xl text-lg bg-red-900 text-white">Switch Login and Main</button>
-      { !isUserLogged && <LoginPage />}
-      { isUserLogged && <MainPage /> }
-    </>
+
+    <div>
+      <Routes>
+        <Route path="/" element={<FrontPage onOpenLogin={openLoginPage} />} />
+        <Route path="/login" element={<LoginPage onOpenMain={openMainPage} />} /> 
+        <Route path="/main" element={<MainPage />}>
+          <Route path="apartments" element={<Apartments />} />
+          <Route path="tags" element={<Tags />} />
+          <Route path="registeredUsers" element={<RegisteredUsers />} />
+        </Route>
+      </Routes>
+    </div>
   )
 }
 
