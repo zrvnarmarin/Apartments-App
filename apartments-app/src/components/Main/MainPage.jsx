@@ -1,6 +1,5 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Apartments from './Apartments'
 import Navbar from './Navbar'
 
 const MainPage = () => {

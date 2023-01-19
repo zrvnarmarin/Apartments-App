@@ -37,7 +37,9 @@ const App = () => {
         <Route path="/" element={<FrontPage onOpenLogin={openLoginPage} />} />
         <Route path="/login" element={<LoginPage onOpenMain={openMainPage} />} /> 
         <Route path="/main" element={<MainPage />}>
-          <Route path="apartments" element={<Apartments isModalOpen={isNewApartmentModalOpen} onModalClose={closeNewApartmentModal} onModalOpen={openNewApartmentModal} />} />
+          <Route path="apartments" element={<Apartments isModalOpen={isNewApartmentModalOpen} onModalClose={closeNewApartmentModal} onModalOpen={openNewApartmentModal} />} >
+            <Route path=":id" element={<AddNewApartment />} />
+          </Route>
           <Route path="tags" element={<Tags />} />
           <Route path="registeredUsers" element={<RegisteredUsers />} />
         </Route>

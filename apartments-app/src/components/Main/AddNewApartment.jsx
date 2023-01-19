@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from './Modal'
+import { Link, Outlet } from 'react-router-dom'
 
 const AddNewApartment = ({ onModalClose }) => {
   return (
@@ -23,8 +24,7 @@ const AddNewApartment = ({ onModalClose }) => {
                 onClick={onModalClose}
                 className='font-medium text-2xl px-12 py-2 rounded-lg text-[#f6f7f9] bg-[#ca1414]'
               >
-                {/* <Link to="/main">Login</Link> */}
-                Cancel
+                <Link to="/main/apartments">Cancel</Link>
               </button>
             </div>
           </section>
