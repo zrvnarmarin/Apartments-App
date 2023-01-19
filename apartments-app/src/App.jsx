@@ -11,12 +11,16 @@ import Apartments from "./components/Main/Apartments"
 import Tags from "./components/Main/Tags"
 import ErrorPage from './components/Error/ErrorPage.jsx'
 import RegisteredUsers from "./components/Main/RegisteredUsers"
+import AddNewApartment from "./components/Main/AddNewApartment"
 
 const App = () => {
   const [isLoginOpened, setIsLoginOpened] = useState(false)
   const [isMainOpened, setIsMainOpened] = useState(false)
-  const openLoginPage = () => setIsLoginOpened(prev => !prev)
-  const openMainPage = () => setIsMainOpened(prev => !prev)
+  const [isNewApartmentModalOpen, setIsNewApartmentModalOpen] = useState(false)
+  const openLoginPage = () => setIsLoginOpened(true)
+  const openMainPage = () => setIsMainOpened(true)
+  const openNewApartmentModal = () => setIsNewApartmentModalOpen(true)
+  const closeNewApartmentModal = () => setIsNewApartmentModalOpen(false)
 
   return (
     // <ThemeProvider>
@@ -33,7 +37,7 @@ const App = () => {
         <Route path="/" element={<FrontPage onOpenLogin={openLoginPage} />} />
         <Route path="/login" element={<LoginPage onOpenMain={openMainPage} />} /> 
         <Route path="/main" element={<MainPage />}>
-          <Route path="apartments" element={<Apartments />} />
+          <Route path="apartments" element={<Apartments isModalOpen={isNewApartmentModalOpen} onModalClose={closeNewApartmentModal} onModalOpen={openNewApartmentModal} />} />
           <Route path="tags" element={<Tags />} />
           <Route path="registeredUsers" element={<RegisteredUsers />} />
         </Route>
