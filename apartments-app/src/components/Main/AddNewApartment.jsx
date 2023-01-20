@@ -57,7 +57,7 @@ const AddNewApartment = ({ onModalClose }) => {
     }
 
 
-    // console.log(newApartment)
+    console.log('ovo je iy new apartmne komponente submit funkcije ' + newApartment)
 
     addNewApartment(newApartment)
     console.log('fomr submited')
