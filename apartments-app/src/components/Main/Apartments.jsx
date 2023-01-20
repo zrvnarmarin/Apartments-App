@@ -2,8 +2,14 @@ import React from 'react'
 import AddNewApartment from './AddNewApartment'
 import { Link } from 'react-router-dom'
 import ArrowDown from '../../assets/DownArrow.svg'
+import axios from 'axios';
 
 const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
+
+  // const addNewApartment = async newApartment => {
+  //   const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
+  //   newApartment).then(response => console.log(response))
+  // }
 
   const apartments = [
     { id: 1, status: 'reserved', reservedBy: 'marin', title: '2-room suite moonlightly', city: 'Zadar', rooms: 2, price: 12.45},
@@ -65,7 +71,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
               <Link to="/main/apartments/addNewApartment">+ Add</Link>
             </button>
           </div>
-          { isModalOpen && <AddNewApartment onModalClose={onModalClose} />}
+          { isModalOpen && <AddNewApartment  onModalClose={onModalClose} />}
       </div>
     </div>
   )
