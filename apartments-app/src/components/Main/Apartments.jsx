@@ -3,19 +3,26 @@ import AddNewApartment from './AddNewApartment'
 import { Link } from 'react-router-dom'
 import ArrowDown from '../../assets/DownArrow.svg'
 import axios from 'axios';
+import { useState, useEffect } from 'react';
+import LoginForm from '../Login/LoginForm';
 
 const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
+  const [apartments, setApartments] = useState([])
 
-  // const addNewApartment = async newApartment => {
-  //   const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
-  //   newApartment).then(response => console.log(response))
-  // }
+  // const apartments = [
+  //   { id: 1, status: 'reserved', reservedBy: 'marin', title: '2-room suite moonlightly', city: 'Zadar', rooms: 2, price: 12.45},
+  //   { id: 2, status: 'occupied', reservedBy: 'marin', title: 'sunsihine rooms', city: 'Split', rooms: 3, price: 23.45},
+  //   { id: 3, status: 'free', reservedBy: 'marin', title: '4-room suite moonlightly', city: 'Sibenik', rooms: 1, price: 60.45}
+  // ]
 
-  const apartments = [
-    { id: 1, status: 'reserved', reservedBy: 'marin', title: '2-room suite moonlightly', city: 'Zadar', rooms: 2, price: 12.45},
-    { id: 2, status: 'occupied', reservedBy: 'marin', title: 'sunsihine rooms', city: 'Split', rooms: 3, price: 23.45},
-    { id: 3, status: 'free', reservedBy: 'marin', title: '4-room suite moonlightly', city: 'Sibenik', rooms: 1, price: 60.45}
-  ]
+  const getApartment = () => {
+    const response = axios.get('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json').then(data => {
+      setInterval(() => {
+        setApartments(data.data)
+      }, 3000);
+      console.log(apartments)
+  })
+  }
 
   return (
     <div>
@@ -35,7 +42,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
                 <th className='py-4 px-6'></th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {apartments.map(apartment =>
                 <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
                   <td className='py-4 px-6'>{apartment.id}</td>
@@ -61,7 +68,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
                   </td>
                 </tr>
               )}
-            </tbody>
+            </tbody> */}
           </table>
           <div className='flex items-center justify-end'>
             <button
@@ -73,6 +80,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
           </div>
           { isModalOpen && <AddNewApartment  onModalClose={onModalClose} />}
       </div>
+      <button onClick={getApartment}>Get Apartments</button>
     </div>
   )
 }
