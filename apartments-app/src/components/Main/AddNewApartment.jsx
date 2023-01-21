@@ -8,7 +8,9 @@ const ACTIONS = {
   SET_CITY: 'set city',
   SET_ROOMS: 'set rooms',
   SET_PRICE: 'set price',
-  SET_STATUS: 'set status'
+  SET_DESCRIPTION: 'set description',
+  SET_ADDRESS: 'set address',
+  SET_CITY: 'set city'
 }
 
 const apartmentReducer = (state, action) =>  {
@@ -25,20 +27,28 @@ const apartmentReducer = (state, action) =>  {
     case ACTIONS.SET_PRICE: {
       return {...state, price: action.payload}
     }
-    case ACTIONS.SET_STATUS: {
-      return {...state, status: action.payload}
+    case ACTIONS.SET_DESCRIPTION: {
+      return {...state, description: action.payload}
+    }
+    case ACTIONS.SET_ADDRESS: {
+      return {...state, address: action.payload}
     }
   }
 }
 
 const AddNewApartment = ({ onModalClose }) => {
-  const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free' })
+  const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
+                                                           address: '', city: '', })
 
   const setTitle = (e) => dispatch({ type: ACTIONS.SET_TITLE, payload: e.target.value })
   const setCity = e => dispatch({ type: ACTIONS.SET_CITY, payload: e.target.value })
   const setRooms = e => dispatch({ type: ACTIONS.SET_ROOMS, payload: e.target.value })
   const setPrice = e => dispatch({ type: ACTIONS.SET_PRICE, payload: e.target.value })
-  const setStatus = e => dispatch({ type: ACTIONS.SET_STATUS, payload: e.target.value })
+  const setDescription = e => dispatch({ type: ACTIONS.SET_DESCRIPTION, payload: e.target.value })
+  const setAddress = e => dispatch({ type: ACTIONS.SET_ADDRESS, payload: e.target.value })
+
+
+  const closeNewApartmentModal = () => onModalClose()
 
   const addNewApartment = async newApartment => {
     const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
@@ -53,18 +63,13 @@ const AddNewApartment = ({ onModalClose }) => {
       city: state.city,
       rooms: state.rooms,
       price: state.price,
-      status: state.status
+      description: state.description,
+      address: state.address
     }
 
-
-    console.log('ovo je iy new apartmne komponente submit funkcije ' + newApartment)
-
     addNewApartment(newApartment)
-    console.log('fomr submited')
+    closeNewApartmentModal()
   }
-
-  
-
 
   return (
     <Modal>
@@ -75,7 +80,8 @@ const AddNewApartment = ({ onModalClose }) => {
                 <input onChange={setCity} className='p-2' type="text" placeholder='City' />
                 <input onChange={setRooms} className='p-2' type="text" placeholder='Rooms' />
                 <input onChange={setPrice} className='p-2' type="text" placeholder='Price' />
-                <input onChange={setStatus} className='p-2' type="text" placeholder='Status' />
+                <input onChange={setDescription} className='p-2' type="text" placeholder='Description' />
+                <input onChange={setAddress} className='p-2' type="text" placeholder='Address' />
                 <button
                 type='submit'
                   className='font-medium text-2xl px-12 py-2 rounded-lg text-[#f6f7f9] bg-[#149eca]'
