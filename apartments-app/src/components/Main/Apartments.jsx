@@ -5,30 +5,56 @@ import ArrowDown from '../../assets/DownArrow.svg'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import LoginForm from '../Login/LoginForm';
+import { useCallback } from 'react';
+import LoadingSpinner from '../../assets/LoadingSpinner.svg'
 
 const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
   const [apartments, setApartments] = useState([])
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  // const apartments = [
-  //   { id: 1, status: 'reserved', reservedBy: 'marin', title: '2-room suite moonlightly', city: 'Zadar', rooms: 2, price: 12.45},
-  //   { id: 2, status: 'occupied', reservedBy: 'marin', title: 'sunsihine rooms', city: 'Split', rooms: 3, price: 23.45},
-  //   { id: 3, status: 'free', reservedBy: 'marin', title: '4-room suite moonlightly', city: 'Sibenik', rooms: 1, price: 60.45}
-  // ]
+  const fetchApartments = useCallback (async () => {
+    setIsLoading(true)
+    setError(null)
 
-  const getApartment = () => {
-    const response = axios.get('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json').then(data => {
-      setInterval(() => {
-        setApartments(data.data)
-      }, 3000);
-      console.log(apartments)
+    try {
+      const response = await axios.get('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json')
+    
+      // if (!response.ok)  throw new Error('Something went wrong..') 
+
+      const data = await response.data
+
+      const loadedApartments = []
+
+      for (let key in data) {
+        loadedApartments.push({
+          id: key,
+          status: data[key].status,
+          reservedBy: data[key].reservedBy,
+          title: data[key].title,
+          city: data[key].city,
+          rooms: data[key].rooms,
+          price: data[key].price
+        })
+      }
+
+      setApartments(loadedApartments)
+      setIsLoading(false)
+    } catch (error) { 
+      setError(error.message) 
+    }
+
   })
-  }
+
+  useEffect(() => {
+    fetchApartments()
+  }, [])
 
   return (
     <div>
       <div className='flex flex-col gap-16 justify-center pt-36 px-36'>
           <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
-          <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
+          { !isLoading && apartments.length > 0 && <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
             <thead>
               <tr className='border-b-[#23272f] border-b-[1px]'>
                 <th className='py-6 px-6 bg-[#149eca]'>#</th>
@@ -42,7 +68,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
                 <th className='py-4 px-6'></th>
               </tr>
             </thead>
-            {/* <tbody>
+            <tbody>
               {apartments.map(apartment =>
                 <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
                   <td className='py-4 px-6'>{apartment.id}</td>
@@ -68,19 +94,23 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
                   </td>
                 </tr>
               )}
-            </tbody> */}
-          </table>
+            </tbody>
+          </table> }
+          { isLoading &&
+            <div className='flex items-center justify-center'>
+              <img height='50' width='50' src={LoadingSpinner} />
+            </div>
+          }
           <div className='flex items-center justify-end'>
-            <button
+           { !isLoading && apartments.length > 0 && <button
               onClick={onModalOpen}
               className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#149eca]'
             >
               <Link to="/main/apartments/addNewApartment">+ Add</Link>
-            </button>
+            </button>}
           </div>
           { isModalOpen && <AddNewApartment  onModalClose={onModalClose} />}
       </div>
-      <button onClick={getApartment}>Get Apartments</button>
     </div>
   )
 }

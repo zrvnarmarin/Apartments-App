@@ -10,7 +10,8 @@ const ACTIONS = {
   SET_PRICE: 'set price',
   SET_DESCRIPTION: 'set description',
   SET_ADDRESS: 'set address',
-  SET_CITY: 'set city'
+  SET_CITY: 'set city',
+  SET_RESERVED_BY: 'set reserved by'
 }
 
 const apartmentReducer = (state, action) =>  {
@@ -33,12 +34,15 @@ const apartmentReducer = (state, action) =>  {
     case ACTIONS.SET_ADDRESS: {
       return {...state, address: action.payload}
     }
+    case ACTIONS.SET_RESERVED_BY: {
+      return {...state, reservedBy: action.payload}
+    }
   }
 }
 
 const AddNewApartment = ({ onModalClose }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
-                                                           address: '', city: '', })
+  address: '', city: '', reservedBy: '' })
 
   const setTitle = (e) => dispatch({ type: ACTIONS.SET_TITLE, payload: e.target.value })
   const setCity = e => dispatch({ type: ACTIONS.SET_CITY, payload: e.target.value })
@@ -46,7 +50,7 @@ const AddNewApartment = ({ onModalClose }) => {
   const setPrice = e => dispatch({ type: ACTIONS.SET_PRICE, payload: e.target.value })
   const setDescription = e => dispatch({ type: ACTIONS.SET_DESCRIPTION, payload: e.target.value })
   const setAddress = e => dispatch({ type: ACTIONS.SET_ADDRESS, payload: e.target.value })
-
+  const setReservedBy = e => dispatch({ type: ACTIONS.SET_RESERVED_BY, payload: e.target.value})
 
   const closeNewApartmentModal = () => onModalClose()
 
@@ -64,7 +68,9 @@ const AddNewApartment = ({ onModalClose }) => {
       rooms: state.rooms,
       price: state.price,
       description: state.description,
-      address: state.address
+      address: state.address,
+      status: state.status,
+      reservedBy: state.reservedBy
     }
 
     addNewApartment(newApartment)
