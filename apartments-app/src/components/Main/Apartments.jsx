@@ -6,6 +6,7 @@ import ApartmentsTable from './ApartmentsTable';
 import ArrowDown from '../../assets/DownArrow.svg'
 import loadingSpinner from '../../assets/LoadingSpinner.svg'
 import LoadingSpinnerSection from './LoadingSpinnerSection';
+import UseHttpRequest from '../../hooks/UseHttpRequest';
 
 const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
   const [apartments, setApartments] = useState([])
