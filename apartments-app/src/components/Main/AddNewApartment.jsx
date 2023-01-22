@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
-import Modal from './Modal'
 import { Link } from 'react-router-dom'
+import Modal from './Modal'
 import axios from 'axios'
 
 const ACTIONS = {
@@ -40,7 +40,7 @@ const apartmentReducer = (state, action) =>  {
   }
 }
 
-const AddNewApartment = ({ onModalClose }) => {
+const AddNewApartment = ({ onModalClose, onFetchApartments }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
   address: '', city: '', reservedBy: '' })
 
@@ -75,6 +75,7 @@ const AddNewApartment = ({ onModalClose }) => {
 
     addNewApartment(newApartment)
     closeNewApartmentModal()
+    onFetchApartments()
   }
 
   return (
