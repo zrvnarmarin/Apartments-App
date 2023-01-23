@@ -45,43 +45,42 @@
 
 // export default UseHttpRequest;
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const useHttpRequest = (url, initialData) => {
-  const [data, setData] = useState(initialData);
+const useHttpRequest = (url, applyData) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const getData = async () => {
     try {
-        setIsLoading(true);
+      setIsLoading(true);
+      setError(null);
+
       const response = await axios.get(url);
-      setData(response.data);
+      const data = await response.data
+
+      applyData(data)
     } catch (err) {
       setError(err);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   const postData = async (body) => {
     try {
-        setIsLoading(true);
+      setIsLoading(true);
+      setError(null)
       const response = await axios.post(url, body);
-      setData(response.data);
     } catch (err) {
       setError(err);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  return { getData, isLoading, error, postData };
+  return { isLoading, error, getData, postData };
 };
 
 export default useHttpRequest;

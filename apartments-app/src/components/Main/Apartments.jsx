@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import AddNewApartment from './AddNewApartment'
 import ApartmentsTable from './ApartmentsTable';
-import ArrowDown from '../../assets/DownArrow.svg'
-import loadingSpinner from '../../assets/LoadingSpinner.svg'
 import LoadingSpinnerSection from './LoadingSpinnerSection';
 import UseHttpRequest from '../../hooks/UseHttpRequest';
 
@@ -39,11 +37,10 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
       }
 
       setApartments(loadedApartments)
-      setIsLoading(false)
     } catch (error) { 
       setError(error.message) 
     }
-
+    setIsLoading(false)
   })
 
   useEffect(() => {

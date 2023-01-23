@@ -50,104 +50,114 @@
 
 // export default App;
 
-import React, { useState} from "react";
-import { useEffect } from "react";
-import UseInput from "./hooks/UseInput";
+import React, { useState, useReducer, useEffect } from "react";
+import useHttpRequest from "./hooks/UseHttpRequest";
 
-const BasicForm = (props) => {
-  return (
-    <form className='border-2 border-black p-4 text-2xl bg-green-400 flex flex-col items-center justify-center'>
-      <div className='control-group'>
-        <div className='form-control'>
-          <label htmlFor='name'>First Name</label>
-          <input type='text' id='name' />
-        </div>
-        <div className='form-control'>
-          <label htmlFor='name'>Last Name</label>
-          <input type='text' id='name' />
-        </div>
-      </div>
-      <div className='form-control'>
-        <label htmlFor='name'>E-Mail Address</label>
-        <input type='text' id='name' />
-      </div>
-      <div className='form-actions'>
-        <button>Submit</button>
-      </div>
-    </form>
-  );
-};
+const ACTIONS = {
+  ADD_TITLE: 'add title',
+  ADD_ROOMS: 'add rooms',
+  ADD_ADDRESS: 'add address',
+  RESET_ALL_INPUTS: 'reset all inputs',
+  ADD_APARTMENTS: 'add apartments'
+}
 
-const SimpleInput = (props) => {
-  const { 
-    value: enteredName, 
-    isValid: enteredNameIsValid,
-    hasError: nameInputHasError,
-    valueChangeHandler: nameChangeHandler,
-    inputBlurHandler: nameBlurHandler,
-    reset: resetNameInput
-  } = UseInput(value => value.trim() !== '')
-
-  const {
-    value: enteredEmail,
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput
-  } = UseInput(value => value.includes('@'))
-
-
-  let formIsValid = false
-  if (enteredNameIsValid && enteredEmailIsValid) formIsValid = true
-
-  const formSubmitHandler = e => {
-    e.preventDefault()  
-
-    if (!enteredNameIsValid) {
-      return
+const apartmentReducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.ADD_TITLE: {
+      return { ...state, title: action.payload}
     }
-
-    resetNameInput()
-    resetEmailInput()
-
-    console.log(enteredName)
+    case ACTIONS.ADD_ROOMS: {
+      return { ...state, rooms: action.payload}
+    }
+    case ACTIONS.ADD_ADDRESS: {
+      return { ...state, address: action.payload}
+    }
+    case ACTIONS.RESET_TITLE: {
+      return { ...state, title: '' }
+    }
+    case ACTIONS.RESET_ROOMS: {
+      return { ...state, rooms: '' }
+    }
+    case ACTIONS.RESET_ADDRESS: {
+      return { ...state, address: '' }
+    }
+    case ACTIONS.RESET_ALL_INPUTS: {
+      return { title: '', rooms: '', address: ''}
+    }
+    case ACTIONS.ADD_APARTMENTS: {
+      return { ...state, apartments: action.payload }
+    }
   }
-
-  return (
-    <form onSubmit={formSubmitHandler} className='border-2 border-black p-4 text-2xl bg-green-400 flex flex-col items-center justify-center'>
-      <div>
-        <label htmlFor='name'>Your Name</label>
-        <input 
-          value={enteredName} 
-          onChange={nameChangeHandler} 
-          onBlur={nameBlurHandler}
-          type='text' id='name' 
-        />
-      </div>
-      <div>
-        <label htmlFor='email'>Your Email</label>
-        <input 
-          value={enteredEmail} 
-          onChange={emailChangeHandler} 
-          onBlur={emailBlurHandler}
-          type='email' id='email' 
-        />
-      </div>
-      { nameInputHasError && <p>Name must not be empty!</p> }
-      { emailInputHasError && <p>Please enter a valid email</p> }
-      <div>
-        <button disabled={!formIsValid} className="bg-red-400 p-2 rounded-xl">Submit</button>
-      </div>
-    </form>
-  );
-};
+}
 
 const App = () => {
+  const [state, dispatch] = useReducer(apartmentReducer, { title: '', rooms: '', address: '', apartments: [] })
+  const [apartments, setApartments] = useState([])
+  const link = 'https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json'
+  const transformApartments = (apartmentsObject) => {
+    const loadedApartments = []
+
+    for (const key in apartmentsObject) {
+      loadedApartments.push({
+        id: apartmentsObject[key].id,
+        title: apartmentsObject[key].title,
+        address: apartmentsObject[key].address,
+        rooms: apartmentsObject[key].rooms,
+      })
+    }
+
+    setApartments(loadedApartments)
+    // addAllApartments(loadedApartments)
+  }
+  const { data, error, isLoading, getData, postData } = useHttpRequest(link, transformApartments)
+
+  const titleChangeHandler = e => dispatch({ type: ACTIONS.ADD_TITLE, payload: e.target.value })
+  const addressChangeHandler = e => dispatch({ type: ACTIONS.ADD_ADDRESS, payload: e.target.value })
+  const roomsChangeHandler = e => dispatch({ type: ACTIONS.ADD_ROOMS, payload: e.target.value })
+  const resetAllInputs = () => dispatch({ type: ACTIONS.RESET_ALL_INPUTS })
+  const addAllApartments = (loadedApartments) => dispatch({ type: ACTIONS.ADD_APARTMENTS, payload: loadedApartments })
+  const getAllApartments = async () => getData()
+  const addNewApartment = async (newApartment) => postData(newApartment)
+
+  const formSubmitHandler = e => {
+    e.preventDefault()
+
+    const newApartment = {
+      id: crypto.randomUUID(),
+      title: state.title,
+      address: state.address,
+      rooms: state.rooms
+    }
+
+    addNewApartment(newApartment)
+    resetAllInputs()
+  }
+
+  useEffect(() => {
+    getAllApartments()
+  }, [])
+
   return (
     <div>
-      <SimpleInput />
-      {/* <BasicForm /> */}
+      { !isLoading && error && <p>{error}</p> }
+      { isLoading && <p>Loading...</p>}
+      <p className="bg-blue-300 text-white text-4xl">GET:</p>
+      {/* {data.map(apartment => 
+        <div key={apartment.id} className="border-2 border-black p-4 rounded-xl">
+          <p>ID: {apartment.id}</p>
+          <p>TITLE: {apartment.title}</p>
+          <p>ROOMS: {apartment.rooms}</p>
+          <p>ADDRESS: {apartment.address}</p>
+        </div>  
+      )} */}
+      { JSON.stringify(apartments) }
+      <p className="bg-red-300 text-white text-4xl">POST:</p>
+      <form onSubmit={formSubmitHandler} className='bg-green-500 text-black p-10 flex flex-col gap-5 w-1/2'>
+        <input value={state.title} onChange={titleChangeHandler} type='text' placeholder="title" />
+        <input value={state.rooms} onChange={roomsChangeHandler} type='text' placeholder="rooms" />
+        <input value={state.address} onChange={addressChangeHandler} type='text' placeholder="address" />
+        <button className='text-white px-6 py-1 rounded-2xl text-xl bg-rose-600' >Submit</button>
+      </form>
     </div>
   )
 }
