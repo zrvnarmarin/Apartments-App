@@ -109,7 +109,7 @@ const App = () => {
     setApartments(loadedApartments)
     // addAllApartments(loadedApartments)
   }
-  const { data, error, isLoading, getData, postData } = useHttpRequest(link, transformApartments)
+  const { error, isLoading, getData, postData } = useHttpRequest(link, transformApartments)
 
   const titleChangeHandler = e => dispatch({ type: ACTIONS.ADD_TITLE, payload: e.target.value })
   const addressChangeHandler = e => dispatch({ type: ACTIONS.ADD_ADDRESS, payload: e.target.value })
@@ -135,22 +135,21 @@ const App = () => {
 
   useEffect(() => {
     getAllApartments()
-  }, [])
+  }, [getAllApartments])
 
   return (
     <div>
       { !isLoading && error && <p>{error}</p> }
       { isLoading && <p>Loading...</p>}
       <p className="bg-blue-300 text-white text-4xl">GET:</p>
-      {/* {data.map(apartment => 
+      {apartments.map(apartment => 
         <div key={apartment.id} className="border-2 border-black p-4 rounded-xl">
           <p>ID: {apartment.id}</p>
           <p>TITLE: {apartment.title}</p>
           <p>ROOMS: {apartment.rooms}</p>
           <p>ADDRESS: {apartment.address}</p>
         </div>  
-      )} */}
-      { JSON.stringify(apartments) }
+      )}
       <p className="bg-red-300 text-white text-4xl">POST:</p>
       <form onSubmit={formSubmitHandler} className='bg-green-500 text-black p-10 flex flex-col gap-5 w-1/2'>
         <input value={state.title} onChange={titleChangeHandler} type='text' placeholder="title" />
