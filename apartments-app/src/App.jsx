@@ -169,15 +169,14 @@ const App = () => {
     reset: resetNameInput
   } = useInput(validateName)
 
-  const [enteredEmail, setEnteredEmail] = useState('')
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false)
-
-  const enteredEmailIsValid = validateEmail(enteredEmail) && enteredEmail.trim() !== ''
-  const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched
-
-  const emailChangeHandler = e => setEnteredEmail(e.target.value)
-  const emailBlurHandler = e => setEnteredEmailTouched(true)
-
+  const { 
+    value: enteredEmail, 
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError, 
+    valueChangeHandler: emailChangeHandler, 
+    valueBlurHandler: emailBlurHandler ,
+    reset: resetEmailInput
+  } = useInput(validateEmail) 
 
   let formIsValid = false
 
@@ -188,15 +187,11 @@ const App = () => {
   const submitHandler = e => {
     e.preventDefault()
 
-    setEnteredEmailTouched(true)
-
     if (!enteredNameIsValid && !enteredEmailIsValid) return
 
     console.log('form submited!')
     resetNameInput()
-
-    setEnteredEmail('')
-    setEnteredEmailTouched(false)
+    resetEmailInput()
   }
 
   return (
@@ -246,7 +241,7 @@ const App = () => {
           type="email" 
           className="p-2 rounded-lg w-1/2 border-2 border-black"
         />
-        { emailInputIsInvalid && <p className="text-red-600 font-medium text-md">Enter correct email!</p> }
+        { emailInputHasError && <p className="text-red-600 font-medium text-md">Enter correct email!</p> }
       </div>
       <div className="flex justify-end items-center">
       <button disabled={!formIsValid} className="px-6 py-1 rounded-xl text-2xl text-white bg-orange-300">Submit</button>
