@@ -53,7 +53,33 @@
 import React, { useState, useReducer, useEffect } from "react";
 import useHttpRequest from "./hooks/UseHttpRequest";
 import LoginPage from './components/Login/LoginPage.jsx'
-import { validateEmail } from "./utils/utilityFunctions";
+import { validateEmail, validateName } from "./utils/utilityFunctions";
+
+const useInput = (validateValue) => {
+  const [enteredValue, setEnteredValue] = useState('')
+  const [enteredValueTouched, setEnteredValueTouched] = useState(false)
+
+  const enteredValueIsValid = validateValue(enteredValue)
+  const hasError = !enteredValueIsValid && enteredValueTouched
+
+  const valueChangeHandler = e => setEnteredValue(e.target.value)
+
+  const valueBlurHandler = () => setEnteredValueTouched(true)
+
+  const reset = () => {
+    setEnteredValue('')
+    setEnteredValueTouched(false)
+  }
+
+  return {
+    value: enteredValue,
+    isValid: enteredValueIsValid,
+    hasError,
+    valueChangeHandler,
+    valueBlurHandler,
+    reset
+  }
+}
 
 const ACTIONS = {
   ADD_TITLE: 'add title',
@@ -134,18 +160,14 @@ const App = () => {
   // }, [getAllApartments])
 
   //OVO JE SECTION 16 za LOGIN PAGE I OVAKO ZA VJEZBU//
-  const [enteredName, setEnteredName] = useState('')
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
-
-  const enteredNameIsValid = enteredName.trim() !== '' 
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched
-
-  const nameChangeHandler = e => {
-    setEnteredName(e.target.value)
-  }
-  const nameBlurHandler = e => {
-    setEnteredNameTouched(true)
-  }
+  const { 
+    value: enteredName, 
+    isValid: enteredNameIsValid,
+    hasError: nameInputHasError, 
+    valueChangeHandler: nameChangeHandler, 
+    valueBlurHandler: nameBlurHandler ,
+    reset: resetNameInput
+  } = useInput(validateName)
 
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false)
@@ -166,14 +188,12 @@ const App = () => {
   const submitHandler = e => {
     e.preventDefault()
 
-    setEnteredNameTouched(true)
     setEnteredEmailTouched(true)
 
     if (!enteredNameIsValid && !enteredEmailIsValid) return
 
     console.log('form submited!')
-    setEnteredName('')
-    setEnteredNameTouched(false)
+    resetNameInput()
 
     setEnteredEmail('')
     setEnteredEmailTouched(false)
@@ -215,7 +235,7 @@ const App = () => {
           type="text" 
           className="p-2 rounded-lg w-1/2 border-2 border-black"
         />
-        { nameInputIsInvalid && <p className="text-red-600 font-medium text-md">Name must not be empty!</p> }
+        { nameInputHasError && <p className="text-red-600 font-medium text-md">Name must not be empty!</p> }
       </div>
       <div className="flex flex-col gap-4">
         <label className="font-medium font-poppins text-xl">Your email</label>

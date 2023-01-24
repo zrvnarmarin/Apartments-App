@@ -5,3 +5,9 @@ export const validateEmail = (email) => {
   
     return false
 }
+
+export const validateName = (name) => {
+  if (name.trim() !== '') return true
+
+  return false
+}
