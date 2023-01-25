@@ -55,30 +55,29 @@ import useHttpRequest from "./hooks/UseHttpRequest";
 import LoginPage from './components/Login/LoginPage.jsx'
 import { validateEmail, validateName } from "./utils/utilityFunctions";
 
-const useInput = (validateValue) => {
-  const [enteredValue, setEnteredValue] = useState('')
-  const [enteredValueTouched, setEnteredValueTouched] = useState(false)
+const UseInput = (validateValue) => {
+  const [value, setValue] = useState('')
+  const [isTouched, setIsTouched] = useState(false)
 
-  const enteredValueIsValid = validateValue(enteredValue)
-  const hasError = !enteredValueIsValid && enteredValueTouched
+  const isValueValid = validateValue(value)
+  const hasError = !isValueValid && isTouched
 
-  const valueChangeHandler = e => setEnteredValue(e.target.value)
-
-  const valueBlurHandler = () => setEnteredValueTouched(true)
-
-  const reset = () => {
-    setEnteredValue('')
-    setEnteredValueTouched(false)
+  const valueChangeHandler = e => setValue(e.target.value)
+  const valueBlurHandler = () => setIsTouched(true)
+  const resetValues = () => {
+    setValue('')
+    setIsTouched(false)
   }
 
   return {
-    value: enteredValue,
-    isValid: enteredValueIsValid,
-    hasError,
-    valueChangeHandler,
-    valueBlurHandler,
-    reset
+    value: value,
+    isValueValid: isValueValid,
+    hasError: hasError,
+    valueChangeHandler: valueChangeHandler,
+    valueBlurHandler: valueBlurHandler,
+    resetValues: resetValues
   }
+
 }
 
 const ACTIONS = {
@@ -159,41 +158,6 @@ const App = () => {
   //   getAllApartments()
   // }, [getAllApartments])
 
-  //OVO JE SECTION 16 za LOGIN PAGE I OVAKO ZA VJEZBU//
-  const { 
-    value: enteredName, 
-    isValid: enteredNameIsValid,
-    hasError: nameInputHasError, 
-    valueChangeHandler: nameChangeHandler, 
-    valueBlurHandler: nameBlurHandler ,
-    reset: resetNameInput
-  } = useInput(validateName)
-
-  const { 
-    value: enteredEmail, 
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError, 
-    valueChangeHandler: emailChangeHandler, 
-    valueBlurHandler: emailBlurHandler ,
-    reset: resetEmailInput
-  } = useInput(validateEmail) 
-
-  let formIsValid = false
-
-  if (enteredNameIsValid && enteredEmailIsValid) {
-    formIsValid = true
-  } 
-
-  const submitHandler = e => {
-    e.preventDefault()
-
-    if (!enteredNameIsValid && !enteredEmailIsValid) return
-
-    console.log('form submited!')
-    resetNameInput()
-    resetEmailInput()
-  }
-
   return (
     
     <>
@@ -225,63 +189,51 @@ const App = () => {
   )
 }
 
+
+
 export default App;
 
 const PracticeForm = () => {
-  const [enteredName, setEnteredName] = useState('')
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
-  const [enteredSurname, setEnteredSurname] = useState('')
-  const [enteredSurnameTouched, setEnteredSurnameTouched] = useState(false)
-  const [enteredEmail, setEnteredEmail] = useState('')
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false)
+  const { 
+    value: name, 
+    isValueValid: isNameValid, 
+    hasError:  hasErrorName, 
+    valueChangeHandler: nameChangeHandler, 
+    valueBlurHandler: nameBlurHandler,
+    resetValues
+  } = UseInput(validateName)
 
-  const isNameValid = enteredName.trim() !== ''
-  const isNameInputInvalid = !isNameValid && enteredNameTouched
+  const { 
+    value: surname, 
+    isValueValid: isSurnameValid, 
+    hasError:  hasErrorSurname, 
+    valueChangeHandler: surnameChangeHandler, 
+    valueBlurHandler: surnameBlurHandler
+  } = UseInput(validateName)
 
-  const isSurnameValid = enteredSurname.trim() !== '' 
-  const isSurnameInputInvalid = !isSurnameValid && enteredSurnameTouched
-
-  const isEmailValid = validateEmail(enteredEmail)
-  const isEmailInputInvalid = !isEmailValid && enteredEmailTouched
-
-  const nameInputHandler = e => setEnteredName(e.target.value)
-  const nameBlurHandler = () => setEnteredNameTouched(true)
-  const surnameInputHandler = e => setEnteredSurname(e.target.value)
-  const surnameBlurHandler = () => setEnteredSurnameTouched(true)
-  const emailChangeHandler = e => setEnteredEmail(e.target.value)
-  const emailBlurHandler = () => setEnteredEmailTouched(true)
-
-  const resetNameValues = () => {
-    setEnteredName('')
-    setEnteredNameTouched(false)
-  }
-
-  const resetSurnameValues = () => {
-    setEnteredSurname('')
-    setEnteredSurnameTouched(false)
-  }
-
-  const resetEmailValues = () => {
-    setEnteredEmail('')
-    setEnteredEmailTouched(false)
-  }
-
-  const submitFormHandler = e => {
-    e.preventDefault()
-
-    if (!isNameValid && !isSurnameValid && !isEmailValid) return 
-
-    console.log('form submited!')
-
-    resetNameValues()
-    resetSurnameValues()
-    resetEmailValues()
-  }
+  const { 
+    value: email, 
+    isValueValid: isEmailValid, 
+    hasError: hasEmailError, 
+    valueChangeHandler: emailChangeHandler, 
+    valueBlurHandler: emailBlurHandler
+  } = UseInput(validateEmail)
 
   let isFormValid = false
   if (isNameValid && isSurnameValid && isEmailValid) {
     isFormValid = true
   }
+
+  const submitFormHandler = e => {
+    e.preventDefault()
+
+    if (!isNameValid && !isSurnameValid && isEmailValid) return
+
+    resetValues()
+  }
+
+
+  
 
   return (
     <div className="font-poppins flex items-center justify-center p-4 w-full">
@@ -289,16 +241,16 @@ const PracticeForm = () => {
         <h1 className="font-semibold text-2xl text-slate-900 mb-6">Sign Up</h1>
         <form onSubmit={submitFormHandler} className="font-light p-4 flex flex-col justify-center items-center gap-6 w-full">
           <div className="w-full">
-            <input value={enteredName} onBlur={nameBlurHandler} onChange={nameInputHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="text" placeholder="Your Name" />
-            { isNameInputInvalid && <p>Name must not be empty!</p>}
+            <input value={name} onBlur={nameBlurHandler} onChange={nameChangeHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="text" placeholder="Your Name" />
+            { hasErrorName && <p>Name must not be empty!</p>}
           </div>
           <div className="w-full">
-            <input value={enteredSurname} onChange={surnameInputHandler} onBlur={surnameBlurHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="text" placeholder="Your Surname" />
-            { isSurnameInputInvalid && <p>Surname must not be empty and the first letter have to have Z character!</p> }
+            <input value={surname} onChange={surnameChangeHandler} onBlur={surnameBlurHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="text" placeholder="Your Surname" />
+            { hasErrorSurname && <p>Surname must not be empty and the first letter have to have Z character!</p> }
           </div>
           <div className="w-full">
-            <input value={enteredEmail} onChange={emailChangeHandler} onBlur={emailBlurHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="email" placeholder="Your Email" />
-            { isEmailInputInvalid && <p>Please enter valid email!</p>}
+            <input value={email} onChange={emailChangeHandler} onBlur={emailBlurHandler} className="w-full py-2 outline-0 border-b-[1px] duration-300 focus:border-[#5590f4] text-[#8297aa] border-slate-300 font-light" type="email" placeholder="Your Email" />
+            { hasEmailError && <p>Please enter valid email!</p>}
           </div>
           <button disabled={!isFormValid} className="bg-gradient-to-r from-cyan-500 to-blue-500 py-2 rounded-3xl text-xl font-medium text-white uppercase w-full mt-12">Sign In</button>
         </form>
