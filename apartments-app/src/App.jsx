@@ -132,6 +132,7 @@ const App = () => {
     setApartments(loadedApartments)
   }
   const { error, isLoading, getData, postData } = useHttpRequest(link, transformApartments)
+  console.log('app running')
 
   const titleChangeHandler = e => dispatch({ type: ACTIONS.ADD_TITLE, payload: e.target.value })
   const addressChangeHandler = e => dispatch({ type: ACTIONS.ADD_ADDRESS, payload: e.target.value })
@@ -154,9 +155,9 @@ const App = () => {
     resetAllInputs()
   }
 
-  // useEffect(() => {
-  //   getAllApartments()
-  // }, [getAllApartments])
+  useEffect(() => {
+    getAllApartments()
+  }, [])
 
   return (
     

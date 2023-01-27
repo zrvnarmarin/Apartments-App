@@ -47,12 +47,13 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { useCallback } from 'react';
 
 const useHttpRequest = (url, applyData) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -63,10 +64,9 @@ const useHttpRequest = (url, applyData) => {
       applyData(data)
     } catch (err) {
       setError(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    } 
+    setIsLoading(false);
+  }, [url, applyData]);
 
   const postData = async (body) => {
     try {
