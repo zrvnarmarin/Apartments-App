@@ -23,14 +23,6 @@ const App = () => {
   const closeNewApartmentModal = () => setIsNewApartmentModalOpen(false)
 
   return (
-    // <ThemeProvider>
-    //   <div className="bg-red-400 flex flex-col gap-4 m-4 p-2">
-    //     <Header />
-    //     <One />
-    //     <Four />
-    //   </div>
-    // </ThemeProvider>
-
     <div>
       <Routes>
         <Route path="*" element={<ErrorPage />} />
