@@ -14,7 +14,8 @@ const LoginForm = ({ email, password, onChangeEmail, onBlurEmail, hasEmailError,
       />
       { hasEmailError && <p>Email is not valid!</p>}
       <input 
-        onChange={onChangePassword} 
+        value={password}
+        onChange={onChangePassword}
         onBlur={onBlurPassword} 
         className='p-2' 
         type="text" 

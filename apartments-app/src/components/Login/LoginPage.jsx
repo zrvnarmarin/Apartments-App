@@ -48,17 +48,17 @@ const LoginPage = ({ onOpenMain }) => {
     changeHandler: passwordChangeHandler, 
     blurHandler: passwordBlurHandler,
     reset: resetPassword
-  } = UseInputValidation(validateName)
+  } = UseInputValidation(validatePassword)
 
-  let isFormValid = false
-  if (isEmailValid && isPasswordValid) {
-    isFormValid = true
-  }
+  // let isFormValid = false
+  // if (isEmailValid && isPasswordValid) {
+  //   isFormValid = true
+  // }
 
   const submitFormHandler = e => {
     e.preventDefault()
 
-    console.log(hasPasswordError)
+    console.log(email)
     
     if (!isEmailValid && !isPasswordValid) return
 
@@ -78,11 +78,11 @@ const LoginPage = ({ onOpenMain }) => {
           onBlurEmail={emailBlurHandler} 
           hasEmailError={hasEmailError} 
           onSubmitForm={submitFormHandler}
-          // onOpenMain={onOpenMain}
           password={password}
           onChangePasword={passwordChangeHandler} 
           onBlurPassword={passwordBlurHandler} 
           hasPasswordError={hasPasswordError} 
+          // onOpenMain={onOpenMain}
         />
       </section>
     </div>

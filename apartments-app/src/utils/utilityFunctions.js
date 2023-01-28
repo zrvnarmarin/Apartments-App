@@ -7,11 +7,10 @@ export const validateEmail = (email) => {
 }
 
 export const validatePassword = (password) => {
-  if(password.length < 8) { 
-
+  if (password.length < 8) { 
     console.log("“Error: Password must be at least 8 characters”"); 
     return true
-    } 
+   } 
 
     return false
 }
