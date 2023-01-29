@@ -51,6 +51,7 @@
 // export default App;
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import axios from 'axios'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,12 @@ const App = () => {
   const [tasks, setTasks] = useState([]);
 
   const setNewTask = task => setTasks(prev => [...prev, task])
+
+  const deleteTask = async id => {
+    const response = await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/tasks/${id}.json`)
+
+    setTasks(tasks.filter(task => task.id !== id))
+  }
 
   const getTasks = async () => {
     setIsLoading(true)
@@ -100,6 +107,7 @@ const App = () => {
         <div key={i} className='border-2 border-black'>
           <p>{task.id}</p>
           <p>{task.text}</p>
+          <button onClick={() => deleteTask(task.id)} className="p-2 bg-indigo-100">Delete</button>
         </div>  
       )}
     </div>
@@ -144,6 +152,8 @@ const NewTask = ({ onSetNewTask }) => {
     e.preventDefault()
 
     if (enteredTask.length > 0) addTask(enteredTask)
+
+    setEnteredTask('')
   }
 
   if (error) return <p>{error}</p>
