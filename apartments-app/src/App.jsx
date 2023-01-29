@@ -161,7 +161,7 @@ const NewTask = ({ onSetNewTask }) => {
   return (
     <form onSubmit={submitFormHandler}>
       <input value={enteredTask} onChange={enteredTaskChangeHandler} type="text" placeholder="Enter new task..." />
-      <button>{ isLoading ? <p>Sending...</p> : <p>Submit task</p>}</button>
+      <button className="p-2 bg-green-100">{ isLoading ? <p>Sending...</p> : <p>Submit task</p>}</button>
     </form>
   )
 }
