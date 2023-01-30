@@ -191,6 +191,10 @@ const LoginForm = () => {
   const [isCorrectUsername, setIsCorrectUsername] = useState(false)
   const [isCorrectPassword, setIsCorrectPassword] = useState(false)
 
+  const [loadedUsernames, setLoadedUsernames] = useState([])
+  const [loadedPasswords, setLoadedPasswords] = useState([])
+
+
   const { 
     value: username,
     isValueValid: isUsernameValid,
@@ -214,16 +218,26 @@ const LoginForm = () => {
     formIsValid = true
   }
 
-  const submitHandler = e => {
+  const submitHandler = async (e) => {
     e.preventDefault()
 
+    const truthUsernames = loadedUsernames.some(loadedUsername => loadedUsername.username === username)
+    if (truthUsernames === true) { setIsCorrectUsername(true) }
+
+    // check if any passwords matches db passwords
+    const truthPasswords = loadedPasswords.some(loadedPassword => loadedPassword.password === password)
+    if (truthPasswords === true) { setIsCorrectPassword(true) }
+    
     if (!isUsernameValid && !isPasswordValid) return
 
-    checkCredentialsValidity()
-
-    resetUsername()
-    resetPassword()
+    // resetUsername()
+    // resetPassword()
   }
+  
+  useEffect(() => {
+    checkCredentialsValidity().then(() => console.log('use effect running ', isCorrectPassword, isCorrectUsername))
+    
+  }, [])
 
   const checkCredentialsValidity = async () => {
     try {
@@ -233,29 +247,27 @@ const LoginForm = () => {
       const usernameResponse = await fetch('https://apartments-app-6a66f-default-rtdb.firebaseio.com/usernames.json')
       const usernamesResponseData = await usernameResponse.json()
 
-      const loadedPasswords = []
       for (const key in passwordsResponseData) {
-        loadedPasswords.push({
+        setLoadedPasswords(prev => [...prev, {
           id: key,
           password: passwordsResponseData[key].password
-        })
+        }])
       }
 
-      const loadedUsernames = []
       for (const key in usernamesResponseData) {
-        loadedUsernames.push({
+        setLoadedUsernames(prev => [...prev, {
           id: key,
           username: usernamesResponseData[key].username
-        })
+        }])
       }
 
-      // check if any usernames matches db usernames
-      const truthUsernames = loadedUsernames.some(loadedUsername => loadedUsername.username === username)
+      // // check if any usernames matches db usernames
+      // const truthUsernames = loadedUsernames.some(loadedUsername => loadedUsername.username === username)
+      // if (truthUsernames === true) { setIsCorrectUsername(true) }
 
-      // check if any passwords matches db passwords
-      const truthPasswords = loadedPasswords.some(loadedPassword => loadedPassword.password === password)
-
-      console.log(truthUsernames)
+      // // check if any passwords matches db passwords
+      // const truthPasswords = loadedPasswords.some(loadedPassword => loadedPassword.password === password)
+      // if (truthPasswords === true) { setIsCorrectPassword(true) }
 
     } catch (error) {
       console.log(error)
@@ -272,6 +284,12 @@ const LoginForm = () => {
         { hasPasswordError && <p>Password is incorect!</p>}
         <button>Submit</button>
       </form>
+      <div style={{ border: '1px solid black', backgroundColor: `${isCorrectPassword && isCorrectUsername ? 'green' : 'red'}` }}>
+        { isCorrectPassword && isCorrectUsername ? 'Password and username are correct!' : ''}
+        { !isCorrectPassword && !isCorrectUsername ? 'Password and username are not correct!' : ''}
+        { isCorrectPassword && !isCorrectUsername ? 'Password is correct and username is not!' : ''}
+        { !isCorrectPassword && isCorrectUsername ? 'Username is correct and password is not!' : ''}
+      </div>
     </div>
   )
 }
