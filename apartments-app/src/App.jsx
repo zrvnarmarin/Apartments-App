@@ -250,16 +250,12 @@ const LoginForm = () => {
       }
 
       // check if any usernames matches db usernames
-      const truthUsernames = loadedUsernames.map(loadedUsername => {
-        if (loadedUsername.username === username) setIsCorrectUsername(true)
-        return false
-      })
+      const truthUsernames = loadedUsernames.some(loadedUsername => loadedUsername.username === username)
 
       // check if any passwords matches db passwords
-      const truthPasswords = loadedPasswords.map(loadedPassword => {
-        if (loadedPassword.password === password) return true
-        return false
-      })
+      const truthPasswords = loadedPasswords.some(loadedPassword => loadedPassword.password === password)
+
+      console.log(truthUsernames)
 
     } catch (error) {
       console.log(error)
