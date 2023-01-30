@@ -284,8 +284,8 @@ const LoginForm = () => {
         <button>Submit</button>
       </form>
       <div style={{ border: '1px solid black', backgroundColor: `${isCorrectPassword && isCorrectUsername ? 'green' : 'red'}` }}>
-        { isCorrectPassword && isCorrectUsername ? 'Password and username are correct!' : ''}
-        { !isCorrectPassword && !isCorrectUsername ? 'Password and username are not correct!' : ''}
+        '{ isCorrectPassword && isCorrectUsername ? 'Password and username are correct!' : ''}'
+        { !isCorrectPassword && !isCorrectUsername ? 'enter credentials' : ''}
         { isCorrectPassword && !isCorrectUsername ? 'Password is correct and username is not!' : ''}
         { !isCorrectPassword && isCorrectUsername ? 'Username is correct and password is not!' : ''}
       </div>
