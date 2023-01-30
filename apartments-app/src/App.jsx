@@ -52,6 +52,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import { validateName } from './utils/utilityFunctions'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,14 +74,14 @@ const App = () => {
     try {
       const response = await fetch('https://apartments-app-6a66f-default-rtdb.firebaseio.com/tasks.json')
       if (!response.ok) throw new Error('Request failed!');
-      const responseData = await response.json()
+      const passwordsResponseData = await response.json()
 
       const loadedTasks = []
 
-      for (const key in responseData) {
+      for (const key in passwordsResponseData) {
         loadedTasks.push({
           id: key,
-          text: responseData[key].text
+          text: passwordsResponseData[key].text
         })
       }
 
@@ -99,22 +100,42 @@ const App = () => {
 
   return (
     <div>
+      <LoginForm />
       <NewTask onSetNewTask={setNewTask} />
       { isLoading && <p>Tasks are loading...</p>}
       { error && <button onClick={getTasks}>{error} Try again!</button> }
-      { tasks.length === 0 && <p>There is no tasks! Add some!</p>}
+      { !isLoading && tasks.length === 0 && <p>There is no tasks! Add some!</p>}
       {tasks.map((task, i) => 
-        <div key={i} className='border-2 border-black'>
-          <p>{task.id}</p>
-          <p>{task.text}</p>
-          <button onClick={() => deleteTask(task.id)} className="p-2 bg-indigo-100">Delete</button>
-        </div>  
+        <Task 
+          key={task.id} 
+          index={i}
+          id={task.id} 
+          text={task.text} 
+          onTaskDelete={deleteTask} 
+        />
       )}
     </div>
   )
 }
 
 export default App;
+
+const Task = ({ id, text, onTaskDelete, index }) => {
+  const [isFullOpened, setIsFullOpened] = useState(false)
+
+  return (
+    <div className='border-2 border-black'>
+      <p>ID: {id}</p>
+      <p>TEXT: {text}</p>
+      <p>#{index}</p>
+      <button onClick={() => onTaskDelete(id)} className="p-2 bg-indigo-100">Delete</button>
+      <button onClick={() => setIsFullOpened(prev => !prev)}>Show</button>
+      { isFullOpened &&
+        <div className="bg-red-400 border-2 border-black"><p>{text}</p></div>
+      }
+    </div>  
+  )
+}
 
 const NewTask = ({ onSetNewTask }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -136,9 +157,9 @@ const NewTask = ({ onSetNewTask }) => {
         },
       })
 
-      const responseData = await response.json()
+      const passwordsResponseData = await response.json()
       
-      const firebaseId = responseData.name
+      const firebaseId = passwordsResponseData.name
       onSetNewTask({ id: firebaseId, text: enteredTask })
       
     } catch (error) {
@@ -165,3 +186,120 @@ const NewTask = ({ onSetNewTask }) => {
     </form>
   )
 }
+
+const LoginForm = () => {
+  const [isCorrectUsername, setIsCorrectUsername] = useState(false)
+  const [isCorrectPassword, setIsCorrectPassword] = useState(false)
+
+  const { 
+    value: username,
+    isValueValid: isUsernameValid,
+    hasError: hasUsernameError,
+    valueChangeHandler: usernameChangeHandler,
+    valueBlurHandler: usernameBlurHandler,
+    reset: resetUsername
+  } = UseInput(validateName)
+
+  const { 
+    value: password,
+    isValueValid: isPasswordValid,
+    hasError: hasPasswordError,
+    valueChangeHandler: passwordChangeHandler,
+    valueBlurHandler: passwordBlurHandler,
+    reset: resetPassword
+  } = UseInput(validateName)
+
+  let formIsValid = false
+  if (isUsernameValid && isPasswordValid) {
+    formIsValid = true
+  }
+
+  const submitHandler = e => {
+    e.preventDefault()
+
+    if (!isUsernameValid && !isPasswordValid) return
+
+    checkCredentialsValidity()
+
+    resetUsername()
+    resetPassword()
+  }
+
+  const checkCredentialsValidity = async () => {
+    try {
+      const passwordResponse = await fetch('https://apartments-app-6a66f-default-rtdb.firebaseio.com/passwords.json')
+      const passwordsResponseData = await passwordResponse.json()
+
+      const usernameResponse = await fetch('https://apartments-app-6a66f-default-rtdb.firebaseio.com/usernames.json')
+      const usernamesResponseData = await usernameResponse.json()
+
+      const loadedPasswords = []
+      for (const key in passwordsResponseData) {
+        loadedPasswords.push({
+          id: key,
+          password: passwordsResponseData[key].password
+        })
+      }
+
+      const loadedUsernames = []
+      for (const key in usernamesResponseData) {
+        loadedUsernames.push({
+          id: key,
+          username: usernamesResponseData[key].username
+        })
+      }
+
+      // check if any usernames matches db usernames
+      const truthUsernames = loadedUsernames.map(loadedUsername => {
+        if (loadedUsername.username === username) setIsCorrectUsername(true)
+        return false
+      })
+
+      // check if any passwords matches db passwords
+      const truthPasswords = loadedPasswords.map(loadedPassword => {
+        if (loadedPassword.password === password) return true
+        return false
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
+  return (
+    <div className="p-2 mb-4 border-2 border-black bg-teal-100">
+      <form onSubmit={submitHandler} className="flex flex-row gap-4 ">
+        <input value={username} onChange={usernameChangeHandler} onBlur={usernameBlurHandler} type="text" placeholder="Enter username..." />
+        { hasUsernameError && <p>Username incorect!</p>}
+        <input value={password} onChange={passwordChangeHandler} onBlur={passwordBlurHandler} type="text" placeholder="Enter password..." />
+        { hasPasswordError && <p>Password is incorect!</p>}
+        <button>Submit</button>
+      </form>
+    </div>
+  )
+}
+
+const UseInput = (validateValue) => {
+  const [value, setValue] = useState('')
+  const [isTouched, setIsTouched] = useState('')
+
+  const isValueValid = validateValue(value)
+  const isInputInvalid = !isValueValid && isTouched
+
+  const valueChangeHandler = e => setValue(e.target.value)
+  const valueBlurHandler = () => setIsTouched(true)
+  const reset = () => {
+    setValue('')
+    setIsTouched(false)
+  }
+
+  return {
+    value,
+    isValueValid,
+    hasError: isInputInvalid,
+    valueChangeHandler,
+    valueBlurHandler,
+    reset
+  }
+ }
