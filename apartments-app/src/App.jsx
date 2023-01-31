@@ -53,11 +53,17 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import { validateName } from './utils/utilityFunctions'
+import { navListItems } from "./data/navListItems";
+import { Link } from 'react-router-dom'
+import styles from './styles/navbar.module.css'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [isLoginSuccessfull, setIsLoginSuccessfull] = useState(null)
+
+  const displayLogin = (loginInfo) => setIsLoginSuccessfull(loginInfo)
 
   const setNewTask = task => setTasks(prev => [...prev, task])
 
@@ -100,20 +106,23 @@ const App = () => {
 
   return (
     <div>
-      <LoginForm />
-      <NewTask onSetNewTask={setNewTask} />
-      { isLoading && <p>Tasks are loading...</p>}
-      { error && <button onClick={getTasks}>{error} Try again!</button> }
-      { !isLoading && tasks.length === 0 && <p>There is no tasks! Add some!</p>}
-      {tasks.map((task, i) => 
-        <Task 
-          key={task.id} 
-          index={i}
-          id={task.id} 
-          text={task.text} 
-          onTaskDelete={deleteTask} 
-        />
-      )}
+      {/* <LoginForm onLoginSucces={displayLogin} /> */}
+      <Navbar />
+      { isLoginSuccessfull && <>
+        <NewTask onSetNewTask={setNewTask} />
+        { isLoading && <p>Tasks are loading...</p>}
+        { error && <button onClick={getTasks}>{error} Try again!</button> }
+        { !isLoading && tasks.length === 0 && <p>There is no tasks! Add some!</p>}
+        {tasks.map((task, i) =>
+          <Task
+            key={task.id}
+            index={i}
+            id={task.id}
+            text={task.text}
+            onTaskDelete={deleteTask}
+          />
+        )}
+      </>}
     </div>
   )
 }
@@ -187,13 +196,12 @@ const NewTask = ({ onSetNewTask }) => {
   )
 }
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSucces }) => {
   const [isCorrectUsername, setIsCorrectUsername] = useState(false)
   const [isCorrectPassword, setIsCorrectPassword] = useState(false)
 
   const [loadedUsernames, setLoadedUsernames] = useState([])
   const [loadedPasswords, setLoadedPasswords] = useState([])
-
 
   const { 
     value: username,
@@ -230,16 +238,20 @@ const LoginForm = () => {
     
     if (!isUsernameValid && !isPasswordValid) return
 
+    let successLogin = isCorrectPassword && isCorrectUsername
+
+    //tu je bug, moram stisnuti dva puta gumb da posalje true state
+    onLoginSucces(successLogin) 
+
     // resetUsername()
     // resetPassword()
   }
   
   useEffect(() => {
-    checkCredentialsValidity().then(() => console.log('use effect running ', isCorrectPassword, isCorrectUsername))
-    
+    loadLoginCredentials().then(() => console.log('use effect running'))
   }, [])
 
-  const checkCredentialsValidity = async () => {
+  const loadLoginCredentials = async () => {
     try {
       const passwordResponse = await fetch('https://apartments-app-6a66f-default-rtdb.firebaseio.com/passwords.json')
       const passwordsResponseData = await passwordResponse.json()
@@ -284,8 +296,8 @@ const LoginForm = () => {
         <button>Submit</button>
       </form>
       <div style={{ border: '1px solid black', backgroundColor: `${isCorrectPassword && isCorrectUsername ? 'green' : 'red'}` }}>
-        '{ isCorrectPassword && isCorrectUsername ? 'Password and username are correct!' : ''}'
-        { !isCorrectPassword && !isCorrectUsername ? 'enter credentials' : ''}
+        { isCorrectPassword && isCorrectUsername ? 'Password and username are correct!' : ''}
+        { !isCorrectPassword && !isCorrectUsername ? 'Enter the credentials' : ''}
         { isCorrectPassword && !isCorrectUsername ? 'Password is correct and username is not!' : ''}
         { !isCorrectPassword && isCorrectUsername ? 'Username is correct and password is not!' : ''}
       </div>
@@ -315,4 +327,47 @@ const UseInput = (validateValue) => {
     valueBlurHandler,
     reset
   }
- }
+}
+
+const Navbar = () => {
+  const [isRotatedButton, setIsRotatedButton] = useState(false)
+  const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
+  
+  return (
+    <div className="font-poppins">
+      <nav className='flex flex-row items-center justify-between bg-[#374151] p-6'>
+        <div className='flex flex-row justify-between flex-1'>
+          <h1 className='italic text-4xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
+          <button 
+            onClick={toggleButtonRotation} 
+            className={`${isRotatedButton ? 'rotate-45' : 'rotate-0'} duration-300 flex items-center justify-center origin-center`}>
+            <span className={styles.firstLine}></span>
+            <span className={styles.secondLine}></span>
+          </button>
+          <ul className={`hidden list-none lg:flex flex-row items-center justify-between gap-16 text-[#f6f7f9]`}>
+            {navListItems.map(item =>
+              <li key={item.id}>
+                <Link to={`/main${item.link}`}>{item.name}</Link>
+              </li>
+            )}
+          </ul>
+        </div>
+        <button
+          onClick={() => setIsMobileNavbarShown(prev => !prev)}
+          className='hidden lg:flex px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#149eca]'
+        >
+          <Link to='/login'>Logout</Link>
+        </button>
+        
+      </nav>
+      
+      { isRotatedButton && <div className="flex-1 flex flex-col items-center z-50 h-full w-[100%] xs:hidden top-0 bottom-0 left-0 bg-slate-800 backdrop-blur">
+        {navListItems.map(item => 
+          <button key={item.id} className="hover:bg-red-400 py-6 text-center duration-100 w-full">
+            <p className="text-2xl text-white">{item.name}</p>
+          </button>  
+        )}
+      </div>}
+    </div>
+  )
+}

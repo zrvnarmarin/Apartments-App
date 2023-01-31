@@ -1,0 +1,13 @@
+.firstLine {
+    width: 20px;
+    height: 3px;
+    background-color: grey;
+    position: absolute;
+    transform: rotateZ(90deg);
+}
+  
+.secondLine {
+    width: 20px;
+    height: 3px;
+    background-color: grey;
+}
