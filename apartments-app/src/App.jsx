@@ -56,7 +56,8 @@ import { validateName } from './utils/utilityFunctions'
 import { navListItems } from "./data/navListItems";
 import { Link } from 'react-router-dom'
 import styles from './styles/navbar.module.css'
-import MainPage from './components/Main/MainPage.jsx'
+import DownArrow from './assets/DownArrow.svg'
+
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +109,6 @@ const App = () => {
   return (
     <div>
       {/* <LoginForm onLoginSucces={displayLogin} /> otkomentiraj ovo za test funkcionalnosti */} 
-      <MainPage />
       { isLoginSuccessfull && <>
         <NewTask onSetNewTask={setNewTask} />
         { isLoading && <p>Tasks are loading...</p>}
@@ -124,6 +124,8 @@ const App = () => {
           />
         )}
       </>}
+
+      <Main />
     </div>
   )
 }
@@ -378,3 +380,78 @@ const Navbar = ({ onLogout }) => {
     </div>
   )
 }
+
+const Main = () => {
+  
+const arrowDown = {
+  width: 0,
+  height: 0, 
+  borderLeft: '25px solid transparent',
+  borderRight: '25px solid transparent',
+  borderTop: '25px solid black',
+  backgroundColor: 'red'
+}
+  return (
+    <div className='flex flex-col gap-16 justify-center pt-36 px-36'>
+      <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
+      <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
+        <thead>
+            <tr className='border-b-[#23272f] border-b-[1px]'>
+            <th className='py-6 px-6 bg-[#149eca]'>#</th>
+            <th className='py-4 px-6'>Status</th>
+            <th className='py-4 px-6'>Reserved By</th>
+            <th className='py-4 px-6'>Title</th>
+            <th className='py-4 px-6'>City</th>
+            <th className='py-4 px-6'>Rooms</th>
+            <th className='py-4 px-6'>Price</th>
+            <th className='py-4 px-6'>Image</th>
+            <th className='py-4 px-6'></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
+                <td className='py-4 px-6'>1</td>
+                <td className='py-4 px-6'>Free</td>
+                <td className='py-4 px-6'>Marin Zrvnar</td>
+                <td className='py-4 px-6'>Sunny Apartments</td>
+                <td className='py-4 px-6'>Karlovac</td>
+                <td className='py-4 px-6'>4</td>
+                <td className='py-4 px-6'>35e</td>
+                <td className='py-4 px-6'>
+                <img
+                    className='hover:scale-[600%] duration-200'
+                    width='30'
+                    height='30'
+                    src='https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg' />
+                </td>
+                <td>
+                <button
+                    className='px-6 py-1 rounded-2xl font-semibold text-md text-[#f6f7f9] flex items-center justify-center'
+                >
+                    <img height="200" width="20" src={DownArrow} alt="Down arrow icon" />
+                </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+      {/* { isLoading && <LoadingSpinnerSection /> } */}
+      {/* { !isLoading && <div className='flex items-center justify-end'>
+         <button
+        onClick={onModalOpen}
+        className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#149eca]'
+      >
+        <Link to="/main/apartments/addNewApartment">+ Add</Link>
+      </button>
+      </div> } */}
+      {/* { !isLoading && apartments.length === 0 &&
+      <div className='flex items-center justify-center'>
+        <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
+      </div>}
+      { !isLoading && error && <p>{error}</p> }
+      { isModalOpen && <AddNewApartment onFetchApartments={fetchApartments} onModalClose={onModalClose} />} */}
+    </div>
+  )
+}
+
+// napravi ispod 768 (sm screen size) da je prikazano kao na tom istom screen sizeu na heliswapu, a od sm na gore screen sizea kako si i prtije
