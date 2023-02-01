@@ -56,6 +56,7 @@ import { validateName } from './utils/utilityFunctions'
 import { navListItems } from "./data/navListItems";
 import { Link } from 'react-router-dom'
 import styles from './styles/navbar.module.css'
+import MainPage from './components/Main/MainPage.jsx'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -106,8 +107,8 @@ const App = () => {
 
   return (
     <div>
-      {/* <LoginForm onLoginSucces={displayLogin} /> */}
-      <Navbar />
+      {/* <LoginForm onLoginSucces={displayLogin} /> otkomentiraj ovo za test funkcionalnosti */} 
+      <MainPage />
       { isLoginSuccessfull && <>
         <NewTask onSetNewTask={setNewTask} />
         { isLoading && <p>Tasks are loading...</p>}
@@ -329,6 +330,7 @@ const UseInput = (validateValue) => {
   }
 }
 
+//spreman za real app, smao kopiraj u Navbar komponentu! 
 const Navbar = ({ onLogout }) => {
   const [isRotatedButton, setIsRotatedButton] = useState(false)
   const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
@@ -337,7 +339,9 @@ const Navbar = ({ onLogout }) => {
     <div className="font-poppins">
       <nav className='font-poppins flex flex-row items-center justify-between bg-[#374151] p-6'>
         <div className='flex flex-row justify-between flex-1'>
-          <h1 className='italic text-4xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
+          <Link to='/main'>
+            <h1 className='italic text-4xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
+          </Link>
           <button 
             onClick={toggleButtonRotation} 
             className={`${isRotatedButton ? 'rotate-45' : 'rotate-0'} sm:hidden duration-300 flex items-center justify-center origin-center`}>
