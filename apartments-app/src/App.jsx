@@ -398,7 +398,7 @@ const Main = () => {
       <section className="md:px-16 flex gap-2 p-4 flex-col bg-[#080c24]">
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
         {apartments.map((apartment, i) => 
-          <div key={apartment.id} className="bg-[#19193f] hover:bg-[#24245a] flex flex-col gap-1 rounded-xl p-4">
+          <div key={apartment.id} className="sm:hidden bg-[#19193f] hover:bg-[#24245a] flex flex-col gap-1 rounded-xl p-4">
             <div className="flex items-center justify-between">
               <span className="hidden sm:block bg-red-200">{i}</span>
               <img className="inline-block" width="20" src={FreeStatusIcon} />
@@ -457,31 +457,31 @@ const Main = () => {
         
 
 
-      <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
+      <table className='bg-[#19193f] text-[#f6f7f9] rounded-md hidden sm:table'>
         <thead>
-            <tr className='border-b-[#23272f] border-b-[1px]'>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>#</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Status</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Reserved By</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>City</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Rooms</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Price</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Image</th>
-            <th className='text-sm md:text-md lg:text-lg xl:text-xl'></th>
+            <tr className='bg-[#24245a]  border-b-[#23272f] border-b-[1px]'>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>#</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>Status</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>Reserved By</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>City</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>Rooms</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>Price</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'>Image</th>
+              <th className='px-0 py-5 text-sm md:text-md lg:text-lg xl:text-xl'></th>
             </tr>
         </thead>
         <tbody>
           {apartments.map(apartment =>
-          <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
+          <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#24245a]  duration-100'>
             <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.id}</td>
             <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
               <img className="inline-block" width="20" src={FreeStatusIcon} />
             </td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.reservedBy}</td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.city}</td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.rooms}</td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.reservedBy}</td>
+            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.city}</td>
+            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.rooms}</td>
+            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
+            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>
             <img
               className='hover:scale-[600%] duration-200 inline-block'
               width='30'
