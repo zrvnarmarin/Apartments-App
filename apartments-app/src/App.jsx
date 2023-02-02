@@ -57,6 +57,7 @@ import { navListItems } from "./data/navListItems";
 import { Link } from 'react-router-dom'
 import styles from './styles/navbar.module.css'
 import DownArrow from './assets/DownArrow.svg'
+import FreeStatusIcon from './assets/FreeStatusIcon.png'
 
 
 const App = () => {
@@ -382,76 +383,76 @@ const Navbar = ({ onLogout }) => {
 }
 
 const Main = () => {
-  
-const arrowDown = {
-  width: 0,
-  height: 0, 
-  borderLeft: '25px solid transparent',
-  borderRight: '25px solid transparent',
-  borderTop: '25px solid black',
-  backgroundColor: 'red'
-}
-  return (
-    <div className='flex flex-col gap-16 justify-center pt-36 px-36'>
-      <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
-      <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
-        <thead>
-            <tr className='border-b-[#23272f] border-b-[1px]'>
-            <th className='py-6 px-6 bg-[#149eca]'>#</th>
-            <th className='py-4 px-6'>Status</th>
-            <th className='py-4 px-6'>Reserved By</th>
-            <th className='py-4 px-6'>Title</th>
-            <th className='py-4 px-6'>City</th>
-            <th className='py-4 px-6'>Rooms</th>
-            <th className='py-4 px-6'>Price</th>
-            <th className='py-4 px-6'>Image</th>
-            <th className='py-4 px-6'></th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
-                <td className='py-4 px-6'>1</td>
-                <td className='py-4 px-6'>Free</td>
-                <td className='py-4 px-6'>Marin Zrvnar</td>
-                <td className='py-4 px-6'>Sunny Apartments</td>
-                <td className='py-4 px-6'>Karlovac</td>
-                <td className='py-4 px-6'>4</td>
-                <td className='py-4 px-6'>35e</td>
-                <td className='py-4 px-6'>
-                <img
-                    className='hover:scale-[600%] duration-200'
-                    width='30'
-                    height='30'
-                    src='https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg' />
-                </td>
-                <td>
-                <button
-                    className='px-6 py-1 rounded-2xl font-semibold text-md text-[#f6f7f9] flex items-center justify-center'
-                >
-                    <img height="200" width="20" src={DownArrow} alt="Down arrow icon" />
-                </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-      {/* { isLoading && <LoadingSpinnerSection /> } */}
-      {/* { !isLoading && <div className='flex items-center justify-end'>
-         <button
-        onClick={onModalOpen}
-        className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#149eca]'
-      >
-        <Link to="/main/apartments/addNewApartment">+ Add</Link>
-      </button>
-      </div> } */}
-      {/* { !isLoading && apartments.length === 0 &&
-      <div className='flex items-center justify-center'>
-        <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
-      </div>}
-      { !isLoading && error && <p>{error}</p> }
-      { isModalOpen && <AddNewApartment onFetchApartments={fetchApartments} onModalClose={onModalClose} />} */}
-    </div>
-  )
-}
+  const [isRotatedButton, setIsRotatedButton] = useState(false)
+  const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
 
-// napravi ispod 768 (sm screen size) da je prikazano kao na tom istom screen sizeu na heliswapu, a od sm na gore screen sizea kako si i prtije
+  const apartments = [
+    {id: 1, status: 'free', reservedBy: 'Marin', title: 'Sunny apartment', city: 'Karlovac', rooms: 4, price: 34, description: 'Beautiful appartment at the sea of Mediteranean', address: 'Splitska 45', numberOFDoubleBeds: 2, numberOfSingleBeds: 3, distanceFromTheSea: '1.5 km'},
+    {id: 2, status: 'free', reservedBy: 'Marin', title: 'Sunny apartment', city: 'Karlovac', rooms: 4, price: 34, description: 'Beautiful appartment at the sea of Mediteranean', address: 'Splitska 45', numberOFDoubleBeds: 2, numberOfSingleBeds: 3, distanceFromTheSea: '1.5 km'},
+    {id: 3, status: 'free', reservedBy: 'Marin', title: 'Sunny apartment', city: 'Karlovac', rooms: 4, price: 34, description: 'Beautiful appartment at the sea of Mediteranean', address: 'Splitska 45', numberOFDoubleBeds: 2, numberOfSingleBeds: 3, distanceFromTheSea: '1.5 km'},
+    {id: 4, status: 'free', reservedBy: 'Marin', title: 'Sunny apartment', city: 'Karlovac', rooms: 4, price: 34, description: 'Beautiful appartment at the sea of Mediteranean', address: 'Splitska 45', numberOFDoubleBeds: 2, numberOfSingleBeds: 3, distanceFromTheSea: '1.5 km'},
+  ]
+  
+  return (
+    <div className="font-poppins text-white">
+      <section className="md:px-16 flex gap-2 p-4 flex-col bg-[#080c24]">
+      <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
+        {apartments.map((apartment, i) => 
+          <div key={apartment.id} className="bg-[#19193f] hover:bg-[#24245a] flex flex-col gap-1 rounded-xl p-4">
+            <div className="flex items-center justify-between">
+              <span className="hidden sm:block bg-red-200">{i}</span>
+              <img className="inline-block" width="20" src={FreeStatusIcon} />
+              <span>{apartment.title}</span>
+              <span>
+                <img className="bg-white rounded-full" height="20" width="40" src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="" />
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>CITY:</span>
+              <span>{apartment.city}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>ROOMS: </span>
+              <span>{apartment.rooms}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>PRICE: </span>
+              <span className="bg-[#68106d] px-4 py-1 rounded-md">{apartment.price} E</span>
+            </div>
+            { isRotatedButton && 
+              <div className="flex flex-col gap-2 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <span>DESCRIPTION: </span>
+                  <span>{apartment.description}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>ADDRESS:</span>
+                  <span>{apartment.address}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>NUMBER OF DOUBLE BEDS: </span>
+                  <span className="">{apartment.numberOFDoubleBeds}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>NUMBER OF SINGLE BEDS: </span>
+                  <span className="">{apartment.numberOfSingleBeds}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>DISTANCE FROM THE SEA: </span>
+                  <span className="bg-[#68106d] px-4 py-1 rounded-md">{apartment.distanceFromTheSea}</span>
+                </div>
+              </div>
+            }
+            <div className="flex items-center justify-center pt-4">
+              <button 
+                onClick={toggleButtonRotation}
+                className={`${isRotatedButton ? 'rotate-180' : 'rotate-0'} sm:hidden duration-300`} 
+              >
+                <img width="20" src={DownArrow} alt="Arrow image" />
+              </button>
+            </div>
+          </div>  
+        )}
+      </section>
+    </div>
+)}
