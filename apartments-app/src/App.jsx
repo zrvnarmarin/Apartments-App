@@ -423,7 +423,7 @@ const Main = () => {
               <div className="flex flex-col gap-2 rounded-xl">
                 <div className="flex items-center justify-between">
                   <span>DESCRIPTION: </span>
-                  <span>{apartment.description}</span>
+                  <span className="xs:overflow-x-auto">{apartment.description}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>ADDRESS:</span>
@@ -453,6 +453,52 @@ const Main = () => {
             </div>
           </div>  
         )}
-      </section>
+        
+        
+
+
+      <table className='bg-[#384252] text-[#f6f7f9] rounded-md'>
+        <thead>
+            <tr className='border-b-[#23272f] border-b-[1px]'>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>#</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Status</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Reserved By</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>City</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Rooms</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Price</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'>Image</th>
+            <th className='text-sm md:text-md lg:text-lg xl:text-xl'></th>
+            </tr>
+        </thead>
+        <tbody>
+          {apartments.map(apartment =>
+          <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#4c5a70] duration-100'>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.id}</td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+              <img className="inline-block" width="20" src={FreeStatusIcon} />
+            </td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.reservedBy}</td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.city}</td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.rooms}</td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
+            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+            <img
+              className='hover:scale-[600%] duration-200 inline-block'
+              width='30'
+              height='30'
+              src='https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg' />
+            </td>
+              <td  className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+                <button
+                  className='px-6 py-1 rounded-2xl font-semibold text-md text-[#f6f7f9]'
+                >
+                  <img className="text-center inline-block" height="20" width="20" src={DownArrow} alt="Down arrow icon" />
+                </button>
+              </td>
+          </tr>
+          )}
+        </tbody>
+      </table>
+  </section>
     </div>
 )}
