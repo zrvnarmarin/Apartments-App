@@ -59,7 +59,6 @@ import styles from './styles/navbar.module.css'
 import DownArrow from './assets/DownArrow.svg'
 import FreeStatusIcon from './assets/FreeStatusIcon.png'
 
-
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -125,7 +124,7 @@ const App = () => {
           />
         )}
       </>}
-
+      <Navbar />
       <Main />
     </div>
   )
@@ -340,7 +339,7 @@ const Navbar = ({ onLogout }) => {
   
   return (
     <div className="font-poppins">
-      <nav className='font-poppins flex flex-row items-center justify-between bg-[#374151] p-6'>
+      <nav className='font-poppins flex flex-row items-center justify-between bg-[#24245a] p-6'>
         <div className='flex flex-row justify-between flex-1'>
           <Link to='/main'>
             <h1 className='italic text-4xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
@@ -353,13 +352,13 @@ const Navbar = ({ onLogout }) => {
           </button>
           <ul className={`hidden list-none sm:flex flex-row items-center justify-between gap-6 lg:gap-16 ss:text-md md:text-lg text-[#f6f7f9]`}>
             {navListItems.map(item =>
-              <li className="hover:border-b-[1px] border-[#149eca] " key={item.id}>
+              <li className="hover:border-b-[1px] border-white " key={item.id}>
                 <Link to={`/main${item.link}`}>{item.name}</Link>
               </li>
             )}
           </ul>
         <button
-          className='hidden sm:flex px-10 py-2 rounded-2xl font-semibold ss-text-md md:text-lg text-[#f6f7f9] bg-[#149eca] hover:bg-[#128eb7]'
+          className='hidden sm:flex px-10 py-2 rounded-2xl font-semibold ss-text-md md:text-lg text-[#f6f7f9] bg-[#68106d] hover:bg-[#741379]'
         >
           <Link onClick={onLogout} to='/login'>Logout</Link>
         </button>
@@ -367,14 +366,14 @@ const Navbar = ({ onLogout }) => {
         
       </nav>
       
-      { isRotatedButton && <div className=" overflow-hidden flex-1 flex flex-col items-center z-50 h-screen w-[100%] sm:hidden top-0 bottom-0 left-0 bg-slate-800 backdrop-blur">
+      { isRotatedButton && <div className=" overflow-hidden flex-1 flex flex-col items-center z-50 h-screen w-[100%] sm:hidden top-0 bottom-0 left-0 bg-[#080c24] backdrop-blur">
         {navListItems.map(item => 
-          <button key={item.id} className="hover:bg-[#149eca] py-6 text-center duration-100 w-full">
+          <button key={item.id} className="hover:bg-[#68106d] py-6 text-center duration-100 w-full">
             <Link to={`/main${item.link}`} className="text-2xl text-white">{item.name}</Link>
             
           </button>  
         )}
-        <button className="bg-[#374151] hover:bg-[#149eca] py-6 text-center duration-100 w-full text-2xl text-white">
+        <button className="bg-[#24245a] hover:bg-[#68106d] py-6 text-center duration-100 w-full text-2xl text-white">
           <Link to='/login'>Logout</Link>
         </button>
       </div>}
@@ -382,6 +381,7 @@ const Navbar = ({ onLogout }) => {
   )
 }
 
+// spreman za real app, napravi od ovog komponente TableApartments i MobileTableApartments
 const Main = () => {
   const [isRotatedButton, setIsRotatedButton] = useState(false)
   const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
@@ -395,7 +395,7 @@ const Main = () => {
   
   return (
     <div className="font-poppins text-white">
-      <section className="md:px-16 flex gap-2 p-4 flex-col bg-[#080c24]">
+      <section className="flex gap-2 pt-36 px-4 sm:px-12 md:px-24 lg:px-32 xl:px-64 flex-col bg-[#080c24]">
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
         {apartments.map((apartment, i) => 
           <div key={apartment.id} className="sm:hidden bg-[#19193f] hover:bg-[#24245a] flex flex-col gap-1 rounded-xl p-4">
@@ -472,30 +472,33 @@ const Main = () => {
         </thead>
         <tbody>
           {apartments.map(apartment =>
-          <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#24245a]  duration-100'>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.id}</td>
-            <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
-              <img className="inline-block" width="20" src={FreeStatusIcon} />
-            </td>
-            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.reservedBy}</td>
-            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.city}</td>
-            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.rooms}</td>
-            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
-            <td className='py-3 text-center text-sm md:text-md lg:text-lg xl:text-xl'>
-            <img
-              className='hover:scale-[600%] duration-200 inline-block'
-              width='30'
-              height='30'
-              src='https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg' />
-            </td>
-              <td  className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
-                <button
-                  className='px-6 py-1 rounded-2xl font-semibold text-md text-[#f6f7f9]'
-                >
-                  <img className="text-center inline-block" height="20" width="20" src={DownArrow} alt="Down arrow icon" />
-                </button>
+          <>
+            <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#24245a]  duration-100'>
+              <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.id}</td>
+              <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+                <img className="inline-block" width="20" src={FreeStatusIcon} />
               </td>
-          </tr>
+              <td className='py-2 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.reservedBy}</td>
+              <td className='py-2 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.city}</td>
+              <td className='py-2 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.rooms}</td>
+              <td className='py-2 text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
+              <td className='py-2 text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+              <img
+                className='hover:scale-[600%] duration-200 inline-block'
+                width='30'
+                height='30'
+                src='https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg' />
+              </td>
+                <td  className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
+                  <button
+                    className='px-6 py-1 rounded-2xl font-semibold text-md text-[#f6f7f9]'
+                  >
+                    <img className="text-center inline-block" height="20" width="20" src={DownArrow} alt="Down arrow icon" />
+                  </button>
+                </td>
+            </tr>
+            
+          </>
           )}
         </tbody>
       </table>
