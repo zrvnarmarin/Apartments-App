@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const Backdrop = (props) => {
     return(
-        <div className='fixed z-40 w-screen h-screen grid place-items-center bg-gray-900 bg-opacity-70'>
+        <div className='fixed z-40 w-screen h-screen grid place-items-center bg-gray-900 bg-opacity-80'>
             {props.children}
         </div>
     )

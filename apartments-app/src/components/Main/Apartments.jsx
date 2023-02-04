@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import AddNewApartment from './AddNewApartment'
-import ApartmentsTable from './ApartmentsTable';
 import LoadingSpinnerSection from './LoadingSpinnerSection';
-import UseHttpRequest from '../../hooks/UseHttpRequest';
-import FreeStatusIcon from '../../assets/FreeStatusIcon.png'
-import DownArrow from '../../assets/DownArrow.svg'
 import Apartment from './Apartment';
 import ApartmentTableHeader from './ApartmentTableHeader';
 
@@ -15,13 +10,11 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const [isMoreInfoOpen, setIsMoreInfoOpen] = useState(false)
-  const toggleMoreInfoSection = () => setIsMoreInfoOpen(prev => !prev)
 
   const setNewApartment = apartment => setApartments(prev => [...prev, apartment])
 
   const deleteApartment = async id => {
-    const response = await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments/${id}.json`)
+    await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments/${id}.json`)
     
     setApartments(apartments.filter(apartment => apartment.id !== id))
   }
@@ -33,8 +26,6 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
     try {
       const response = await axios.get('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json')
     
-      // if (!response.ok)  throw new Error('Something went wrong..') 
-
       const data = await response.data
 
       const loadedApartments = []
@@ -65,22 +56,24 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
-      {/* { !isLoading && apartments.length > 0 && <ApartmentsTable apartments={apartments} /> } */}
       { isLoading && <LoadingSpinnerSection /> }
-      { !isLoading && <div className='flex items-center justify-end my-10'>
-         <button
-        onClick={onModalOpen}
-        className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#68106d]'
-      >
-        <Link to="/main/addNewApartment">+ Add</Link>
-      </button>
-      </div> }
+      { !isLoading && 
+        <div className='flex items-center justify-end my-10'>
+          <button
+            onClick={onModalOpen}
+            className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#68106d]'
+          >
+            <Link to="/main/addNewApartment">+ Add</Link>
+          </button>
+        </div> 
+      }
       { !isLoading && apartments.length === 0 &&
-      <div className='flex items-center justify-center'>
-        <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
-      </div>}
+        <div className='flex items-center justify-center'>
+          <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
+        </div>
+      }
+
       { !isLoading && error && <p>{error}</p> }
-      {/* { isModalOpen && <AddNewApartment onSetNewApartment={setNewApartment} onFetchApartments={fetchApartments} onModalClose={onModalClose} />} */}
 
        { /* tablica apartmana */}
       <div className=' grid grid-cols-7 bg-[#19193f] text-[#f6f7f9] rounded-md '>
@@ -100,7 +93,6 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
             />
           </div>
         )}
-
     </div>
   )
 }
