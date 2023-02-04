@@ -40,7 +40,7 @@ const apartmentReducer = (state, action) =>  {
   }
 }
 
-const AddNewApartment = ({ onModalClose, onFetchApartments }) => {
+const AddNewApartment = ({ onModalClose, onFetchApartments, onSetNewApartment }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
   address: '', city: '', reservedBy: '' })
 
@@ -56,7 +56,21 @@ const AddNewApartment = ({ onModalClose, onFetchApartments }) => {
 
   const addNewApartment = async newApartment => {
     const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
-    newApartment).then(response => console.log(response))
+    newApartment).then(response => {
+      const newApartment = {
+        id: response.data.name,
+        title: state.title,
+        city: state.city,
+        rooms: state.rooms,
+        price: state.price,
+        description: state.description,
+        address: state.address,
+        status: state.status,
+        reservedBy: state.reservedBy
+      }
+
+      onSetNewApartment(newApartment)
+    })
   }
 
   const submitHandler = e => {

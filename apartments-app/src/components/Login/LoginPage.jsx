@@ -70,7 +70,7 @@ const LoginPage = ({ onOpenMain }) => {
   return (
     <div className='w-screen h-screen bg-[#080c24] flex flex-col gap-32 items-center justify-center'>
       <h1 className='italic text-8xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
-      <section className='bg-[#24245a] px-2 pt-8 pb-2 rounded-xl xs:w-3/4 sm:w-3/4 lg:w-1/2 lg:max-w-[40%]'>
+      <section className='bg-[#24245a] px-2 pt-8 pb-2 xs:w-3/4 sm:w-3/4 lg:w-1/2 lg:max-w-[40%]'>
         <h1 className='font-poppins text-4xl font-medium text-center pb-8 text-[#f6f7f9]'>Login</h1>
         <LoginForm 
           email={email}

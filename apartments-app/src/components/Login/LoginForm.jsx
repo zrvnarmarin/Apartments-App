@@ -25,7 +25,7 @@ const LoginForm = ({ email, password, onChangeEmail, onBlurEmail, hasEmailError,
       <div className=' flex items-center justify-center gap-4 p-2 pt-8'>
         <button
           type='submit'
-          className='w-full font-medium text-2xl px-12 py-2 rounded-lg text-[#f6f7f9] bg-[#68106d] hover:bg-[#741379]'
+          className='w-full font-medium text-2xl px-12 py-2  text-[#f6f7f9] bg-[#68106d] hover:bg-[#741379]'
         >
           <Link to="/main">Login</Link>
         </button>

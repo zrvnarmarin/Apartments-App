@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const FrontPage = ({ onOpenLogin }) => {
   return (
-    <div className='w-screen h-screen bg-[#23272f] flex flex-col gap-16 items-center justify-center'>
+    <div className='w-screen h-screen bg-[#080c24] flex flex-col gap-16 items-center justify-center'>
         <h1 className='italic text-8xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
         <button 
             onClick={onOpenLogin} 

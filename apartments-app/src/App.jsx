@@ -474,7 +474,7 @@ const Main = () => {
           {apartments.map(apartment =>
           <>
             <tr key={apartment.id} className='border-b-[#23272f] border-b-[1px] hover:bg-[#24245a]  duration-100'>
-              <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.id}</td>
+              <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>{apartment.price}</td>
               <td className='text-center text-sm md:text-md lg:text-lg xl:text-xl'>
                 <img className="inline-block" width="20" src={FreeStatusIcon} />
               </td>
