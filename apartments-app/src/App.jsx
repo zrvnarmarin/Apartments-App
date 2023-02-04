@@ -38,8 +38,9 @@ const App = () => {
         <Route path="/login" element={<LoginPage onOpenMain={openMainPage} />} /> 
         <Route path="/main" element={<MainPage />}>
           <Route path="apartments" element={<Apartments isModalOpen={isNewApartmentModalOpen} onModalClose={closeNewApartmentModal} onModalOpen={openNewApartmentModal} />} >
-            <Route path=":id" element={<AddNewApartment />} />
+            {/* <Route path=":id" element={<AddNewApartment />} /> */}
           </Route>
+          <Route path="addNewApartment" element={<AddNewApartment />} />
           <Route path="tags" element={<Tags />} />
           <Route path="registeredUsers" element={<RegisteredUsers />} />
         </Route>

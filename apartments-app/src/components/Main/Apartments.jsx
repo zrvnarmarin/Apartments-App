@@ -20,6 +20,12 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
 
   const setNewApartment = apartment => setApartments(prev => [...prev, apartment])
 
+  const deleteApartment = async id => {
+    const response = await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments/${id}.json`)
+    
+    setApartments(apartments.filter(apartment => apartment.id !== id))
+  }
+
   const fetchApartments = useCallback (async () => {
     setIsLoading(true)
     setError(null)
@@ -66,7 +72,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
         onClick={onModalOpen}
         className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#68106d]'
       >
-        <Link to="/main/apartments/addNewApartment">+ Add</Link>
+        <Link to="/main/addNewApartment">+ Add</Link>
       </button>
       </div> }
       { !isLoading && apartments.length === 0 &&
@@ -74,7 +80,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
         <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
       </div>}
       { !isLoading && error && <p>{error}</p> }
-      { isModalOpen && <AddNewApartment onSetNewApartment={setNewApartment} onFetchApartments={fetchApartments} onModalClose={onModalClose} />}
+      {/* { isModalOpen && <AddNewApartment onSetNewApartment={setNewApartment} onFetchApartments={fetchApartments} onModalClose={onModalClose} />} */}
 
        { /* tablica apartmana */}
       <div className=' grid grid-cols-7 bg-[#19193f] text-[#f6f7f9] rounded-md '>
@@ -90,6 +96,7 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
               city={apartment.city} 
               rooms={apartment.rooms} 
               price={apartment.price} 
+              onDeleteApartment={deleteApartment}
             />
           </div>
         )}
