@@ -9,7 +9,7 @@ const Navbar = ({ onLogout }) => {
   
   return (
     <div className="font-poppins">
-      <nav className='font-poppins flex flex-row items-center justify-between bg-[#374151] p-6'>
+      <nav className='font-poppins flex flex-row items-center justify-between bg-[#24245a] p-6'>
         <div className='flex flex-row justify-between flex-1'>
           <Link to='/main'>
             <h1 className='italic text-4xl font-medium text-[#f6f7f9]'>Apartmenify</h1>
@@ -22,13 +22,13 @@ const Navbar = ({ onLogout }) => {
           </button>
           <ul className={`hidden list-none sm:flex flex-row items-center justify-between gap-6 lg:gap-16 ss:text-md md:text-lg text-[#f6f7f9]`}>
             {navListItems.map(item =>
-              <li className="hover:border-b-[1px] border-[#149eca] " key={item.id}>
+              <li className="hover:border-b-[1px] border-white " key={item.id}>
                 <Link to={`/main${item.link}`}>{item.name}</Link>
               </li>
             )}
           </ul>
         <button
-          className='hidden sm:flex px-10 py-2 rounded-2xl font-semibold ss-text-md md:text-lg text-[#f6f7f9] bg-[#149eca] hover:bg-[#128eb7]'
+          className='hidden sm:flex px-10 py-2 rounded-2xl font-semibold ss-text-md md:text-lg text-[#f6f7f9] bg-[#68106d] hover:bg-[#741379]'
         >
           <Link onClick={onLogout} to='/login'>Logout</Link>
         </button>
@@ -36,14 +36,14 @@ const Navbar = ({ onLogout }) => {
         
       </nav>
       
-      { isRotatedButton && <div className=" overflow-hidden flex-1 flex flex-col items-center z-50 h-screen w-[100%] sm:hidden top-0 bottom-0 left-0 bg-slate-800 backdrop-blur">
+      { isRotatedButton && <div className=" overflow-hidden flex-1 flex flex-col items-center z-50 h-screen w-[100%] sm:hidden top-0 bottom-0 left-0 bg-[#080c24] backdrop-blur">
         {navListItems.map(item => 
-          <button key={item.id} className="hover:bg-[#149eca] py-6 text-center duration-100 w-full">
+          <button key={item.id} className="hover:bg-[#68106d] py-6 text-center duration-100 w-full">
             <Link to={`/main${item.link}`} className="text-2xl text-white">{item.name}</Link>
             
           </button>  
         )}
-        <button className="bg-[#374151] hover:bg-[#149eca] py-6 text-center duration-100 w-full text-2xl text-white">
+        <button className="bg-[#24245a] hover:bg-[#68106d] py-6 text-center duration-100 w-full text-2xl text-white">
           <Link to='/login'>Logout</Link>
         </button>
       </div>}

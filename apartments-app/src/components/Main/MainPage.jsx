@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 const MainPage = () => {
 
   return (
-    <main className='w-screen h-screen bg-[#23272f] font-poppins'>
+    <main className='w-screen h-screen bg-[#080c24] font-poppins'>
       <Navbar />
       <Outlet />
     </main>
