@@ -735,3 +735,7 @@ const Tasks = (props) => {
 const Section = (props) => {
   return <section >{props.children}</section>;
 };
+
+
+TO DO: popraviti na small screen sizeu problem kod overlapanja X-osi --> problem je negdje u change 
+i delete gumbima

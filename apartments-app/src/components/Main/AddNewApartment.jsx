@@ -89,7 +89,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Add New Apartment</h1>
 
-      <form onSubmit={submitFormHandler} className='grid grid-cols-2 my-10  gap-12 p-2'>
+      <form onSubmit={submitFormHandler} className='grid rid-cols-1 sm:grid-cols-2 my-10  gap-12 p-2'>
         <input onChange={titleChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Title' />
         <input onChange={cityChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='City' />
         <input onChange={roomsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Rooms' />
