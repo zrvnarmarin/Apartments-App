@@ -1,6 +1,7 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Select from '../UI/Select'
 
 const ACTIONS = {
   SET_TITLE: 'set title',
@@ -85,6 +86,15 @@ const AddNewApartment = ({ onSetNewApartment }) => {
     addNewApartment(newApartment)
   }
 
+  const options = [
+    { label: 'First', value: 'First value'},
+    { label: 'Second', value: 'Second value'},
+    { label: 'Third', value: 'Third value'},
+    { label: 'Fourth', value: 'Fourth value'},
+    { label: 'Fifth', value: 'Fifth value'},
+  ]
+  const [value, setValue] = useState(options[2])
+
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Add New Apartment</h1>
@@ -96,6 +106,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
         <input onChange={priceChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Price' />
         <input onChange={descriptionChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Description' />
         <input onChange={addressChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Address' />
+        <Select options={options} value={value} onChange={o => setValue(o)} />
         <button
           type='submit'
           className='font-medium col-span-full text-2xl px-12 py-2 rounded-md text-[#f6f7f9] bg-[#68106d]'
