@@ -78,6 +78,7 @@ export function Select({ multiple, value, onChange, options }) {
         {multiple
         ? value.map(v => (
             <button
+            
                 key={v.value}
                 onClick={e => {
                 e.stopPropagation()
@@ -92,6 +93,7 @@ export function Select({ multiple, value, onChange, options }) {
         : value?.label}
       </span>
       <button
+      type="button"
         onClick={e => {
           e.stopPropagation()
           clearOptions()

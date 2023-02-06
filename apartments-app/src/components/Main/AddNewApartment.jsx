@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Select  from '../UI/Select.jsx'
@@ -44,6 +44,16 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
   address: '', city: '', reservedBy: '' })
 
+  const options = [
+    { label: "First", value: 1 },
+    { label: "Second", value: 2 },
+    { label: "Third", value: 3 },
+    { label: "Fourth", value: 4 },
+    { label: "Fifth", value: 5 },
+  ]
+  
+  const [facility, setFacility] = useState([options[0]])
+
   const titleChangeHandler = (e) => dispatch({ type: ACTIONS.SET_TITLE, payload: e.target.value })
   const cityChangeHandler = e => dispatch({ type: ACTIONS.SET_CITY, payload: e.target.value })
   const roomsChangeHandler = e => dispatch({ type: ACTIONS.SET_ROOMS, payload: e.target.value })
@@ -51,7 +61,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   const descriptionChangeHandler = e => dispatch({ type: ACTIONS.SET_DESCRIPTION, payload: e.target.value })
   const addressChangeHandler = e => dispatch({ type: ACTIONS.SET_ADDRESS, payload: e.target.value })
 
-  const addNewApartment = async newApartment => {
+  const addNewApartment = useCallback(async newApartment => {
     const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
     newApartment).then(response => {
       const newApartment = {
@@ -67,7 +77,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
 
       // onSetNewApartment(newApartment)
     })
-  }
+  })
 
   const submitFormHandler = e => {
     e.preventDefault()
@@ -86,15 +96,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
     addNewApartment(newApartment)
   }
 
-  const options = [
-    { label: "First", value: 1 },
-    { label: "Second", value: 2 },
-    { label: "Third", value: 3 },
-    { label: "Fourth", value: 4 },
-    { label: "Fifth", value: 5 },
-  ]
   
-  const [value1, setValue1] = useState([options[0]])
 
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
@@ -111,8 +113,8 @@ const AddNewApartment = ({ onSetNewApartment }) => {
           <Select
             multiple
             options={options}
-            value={value1}
-            onChange={o => setValue1(o)}
+            value={facility}
+            onChange={o => setFacility(o)}
           />
           <br />
           {/* <Select options={options} value={value2} onChange={o => setValue2(o)} /> */}
