@@ -44,15 +44,25 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
   address: '', city: '', reservedBy: '' })
 
-  const options = [
-    { label: "First", value: 1 },
-    { label: "Second", value: 2 },
-    { label: "Third", value: 3 },
-    { label: "Fourth", value: 4 },
-    { label: "Fifth", value: 5 },
+  const facilities = [
+    { label: "Wi-Fi", value: 'Wi-Fi' },
+    { label: "Free Parking", value: 'Free Parking' },
+    { label: "TV", value: 'TV' },
+    { label: "Car Rental Service", value: 'Car Rental Service' },
+    { label: "Coffe Machine", value: 'Coffe Machine' },
+    { label: "Refrigerator", value: 'Refrigerator' },
+    { label: "Hairdryer", value: 'Hairdryer' },
+    { label: "Flat-screen TV", value: 'Flat-screen TV' },
+    { label: "Spa", value: 'Spa' },
+    { label: "Air Conditioning", value: 'Air Conditioning' },
+    { label: "Smoke Free", value: 'Smoke Free' },
+    { label: "Sauna", value: 'Sauna' },
+    { label: "BBQ", value: 'BBQ' },
+
+
   ]
   
-  const [facility, setFacility] = useState([options[0]])
+  const [facility, setFacility] = useState([facilities[0]])
 
   const titleChangeHandler = (e) => dispatch({ type: ACTIONS.SET_TITLE, payload: e.target.value })
   const cityChangeHandler = e => dispatch({ type: ACTIONS.SET_CITY, payload: e.target.value })
@@ -112,9 +122,9 @@ const AddNewApartment = ({ onSetNewApartment }) => {
         <div className=''>
           <Select
             multiple
-            options={options}
+            options={facilities}
             value={facility}
-            onChange={o => setFacility(o)}
+            onChange={facility => setFacility(facility)}
           />
           <br />
           {/* <Select options={options} value={value2} onChange={o => setValue2(o)} /> */}

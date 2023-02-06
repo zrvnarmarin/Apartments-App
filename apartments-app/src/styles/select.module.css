@@ -18,6 +18,10 @@
   border-color: hsl(200, 100%, 50%);
 }
 
+::-webkit-scrollbar-button {
+  scrollbar-color: red;
+}
+
 .value {
   flex-grow: 1;
   display: flex;
@@ -73,6 +77,18 @@
   top: calc(100% + .25em);
   background-color: #19193f;
   z-index: 100;
+}
+
+.options::-webkit-scrollbar {
+  width: 6px;
+  scrollbar-width: thin;
+}
+
+.options::-webkit-scrollbar-thumb {
+  background: #080c24;
+  width: 100px;
+  scrollbar-width: thin;
+  border-radius: 6px;
 }
 
 .options.show {
