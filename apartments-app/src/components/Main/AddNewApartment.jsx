@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import Select from '../UI/Select'
+import Select  from '../UI/Select.jsx'
 
 const ACTIONS = {
   SET_TITLE: 'set title',
@@ -87,13 +87,15 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   }
 
   const options = [
-    { label: 'First', value: 'First value'},
-    { label: 'Second', value: 'Second value'},
-    { label: 'Third', value: 'Third value'},
-    { label: 'Fourth', value: 'Fourth value'},
-    { label: 'Fifth', value: 'Fifth value'},
+    { label: "First", value: 1 },
+    { label: "Second", value: 2 },
+    { label: "Third", value: 3 },
+    { label: "Fourth", value: 4 },
+    { label: "Fifth", value: 5 },
   ]
-  const [value, setValue] = useState(options[2])
+  
+  const [value1, setValue1] = useState([options[0]])
+  const [value2, setValue2] = useState(options[0])
 
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
@@ -106,7 +108,16 @@ const AddNewApartment = ({ onSetNewApartment }) => {
         <input onChange={priceChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Price' />
         <input onChange={descriptionChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Description' />
         <input onChange={addressChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Address' />
-        <Select options={options} value={value} onChange={o => setValue(o)} />
+        <>
+          <Select
+            multiple
+            options={options}
+            value={value1}
+            onChange={o => setValue1(o)}
+          />
+          <br />
+          <Select options={options} value={value2} onChange={o => setValue2(o)} />
+        </>
         <button
           type='submit'
           className='font-medium col-span-full text-2xl px-12 py-2 rounded-md text-[#f6f7f9] bg-[#68106d]'
