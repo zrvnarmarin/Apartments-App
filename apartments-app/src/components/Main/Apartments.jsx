@@ -8,14 +8,10 @@ import FreeStatusIcon from '../../assets/FreeStatusIcon.png'
 import DownArrow from '../../assets/DownArrow.svg'
 import MobileVersionApartment from './MobileVersionApartment';
 
-const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
+const Apartments = ({  }) => {
   const [apartments, setApartments] = useState([])
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
-  const [isRotatedButton, setIsRotatedButton] = useState(false)
-  const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
-
 
   const setNewApartment = apartment => setApartments(prev => [...prev, apartment])
 
@@ -66,7 +62,6 @@ const Apartments = ({ isModalOpen, onModalOpen, onModalClose }) => {
       { !isLoading && 
         <div className='flex items-center justify-end my-10'>
           <button
-            onClick={onModalOpen}
             className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#68106d]'
           >
             <Link to="/main/addNewApartment">+ Add</Link>

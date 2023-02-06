@@ -1,0 +1,15 @@
+export const facilities = [
+    { label: "Wi-Fi", value: 'Wi-Fi' },
+    { label: "Free Parking", value: 'Free Parking' },
+    { label: "TV", value: 'TV' },
+    { label: "Car Rental Service", value: 'Car Rental Service' },
+    { label: "Coffe Machine", value: 'Coffe Machine' },
+    { label: "Refrigerator", value: 'Refrigerator' },
+    { label: "Hairdryer", value: 'Hairdryer' },
+    { label: "Flat-screen TV", value: 'Flat-screen TV' },
+    { label: "Spa", value: 'Spa' },
+    { label: "Air Conditioning", value: 'Air Conditioning' },
+    { label: "Smoke Free", value: 'Smoke Free' },
+    { label: "Sauna", value: 'Sauna' },
+    { label: "BBQ", value: 'BBQ' },
+  ]

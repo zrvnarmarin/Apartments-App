@@ -2,31 +2,36 @@ import React, { useReducer, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Select  from '../UI/Select.jsx'
+import { facilities } from '../../data/facilities.js'
 
 const ACTIONS = {
   SET_TITLE: 'set title',
   SET_CITY: 'set city',
-  SET_ROOMS: 'set rooms',
   SET_PRICE: 'set price',
+  SET_DISTANCE_FROM_THE_SEA: 'distance from the sea',
   SET_DESCRIPTION: 'set description',
   SET_ADDRESS: 'set address',
-  SET_CITY: 'set city',
+  SET_ROOMS: 'set rooms',
+  SET_SINGLE_BEDS: 'single beds',
+  SET_DOUBLE_BEDS: 'double beds',
   SET_RESERVED_BY: 'set reserved by'
 }
 
 const apartmentReducer = (state, action) =>  {
   switch (action.type) {
     case ACTIONS.SET_TITLE: {
+      // console.log(action.payload)
       return {...state, title: action.payload}
     }
     case ACTIONS.SET_CITY: {
+      // console.log(action.payload)
       return {...state, city: action.payload}
-    }
-    case ACTIONS.SET_ROOMS: {
-      return {...state, rooms: action.payload}
     }
     case ACTIONS.SET_PRICE: {
       return {...state, price: action.payload}
+    }
+    case ACTIONS.SET_DISTANCE_FROM_THE_SEA: {
+      return {...state, distanceFromTheSea: action.payload}
     }
     case ACTIONS.SET_DESCRIPTION: {
       return {...state, description: action.payload}
@@ -34,59 +39,59 @@ const apartmentReducer = (state, action) =>  {
     case ACTIONS.SET_ADDRESS: {
       return {...state, address: action.payload}
     }
-    case ACTIONS.SET_RESERVED_BY: {
-      return {...state, reservedBy: action.payload}
+    case ACTIONS.SET_ROOMS: {
+      return {...state, rooms: action.payload}
     }
+    case ACTIONS.SET_SINGLE_BEDS: {
+      console.log(action.payload)
+      return {...state, singleBeds: action.payload}
+    }
+    case ACTIONS.SET_DOUBLE_BEDS: {
+      console.log(action.payload)
+      return {...state, doubleBeds: action.payload}
+    }
+    // case ACTIONS.SET_RESERVED_BY: {
+    //   return {...state, reservedBy: action.payload}
+    // }
   }
 }
 
 const AddNewApartment = ({ onSetNewApartment }) => {
-  const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: 0, price: 0, status: 'free', description: '',
-  address: '', city: '', reservedBy: '' })
+  const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: '', price: '', status: 'free', description: '',
+  address: '', city: '', reservedBy: '', distanceFromTheSea: '', singleBeds: '', doubleBeds: '' })
 
-  const facilities = [
-    { label: "Wi-Fi", value: 'Wi-Fi' },
-    { label: "Free Parking", value: 'Free Parking' },
-    { label: "TV", value: 'TV' },
-    { label: "Car Rental Service", value: 'Car Rental Service' },
-    { label: "Coffe Machine", value: 'Coffe Machine' },
-    { label: "Refrigerator", value: 'Refrigerator' },
-    { label: "Hairdryer", value: 'Hairdryer' },
-    { label: "Flat-screen TV", value: 'Flat-screen TV' },
-    { label: "Spa", value: 'Spa' },
-    { label: "Air Conditioning", value: 'Air Conditioning' },
-    { label: "Smoke Free", value: 'Smoke Free' },
-    { label: "Sauna", value: 'Sauna' },
-    { label: "BBQ", value: 'BBQ' },
-
-
-  ]
-  
   const [facility, setFacility] = useState([facilities[0]])
 
   const titleChangeHandler = (e) => dispatch({ type: ACTIONS.SET_TITLE, payload: e.target.value })
   const cityChangeHandler = e => dispatch({ type: ACTIONS.SET_CITY, payload: e.target.value })
-  const roomsChangeHandler = e => dispatch({ type: ACTIONS.SET_ROOMS, payload: e.target.value })
   const priceChangeHandler = e => dispatch({ type: ACTIONS.SET_PRICE, payload: e.target.value })
+  const distanceFromTheSeaChangeHandler = e => dispatch({ type: ACTIONS.SET_DISTANCE_FROM_THE_SEA, payload: e.target.value })
   const descriptionChangeHandler = e => dispatch({ type: ACTIONS.SET_DESCRIPTION, payload: e.target.value })
   const addressChangeHandler = e => dispatch({ type: ACTIONS.SET_ADDRESS, payload: e.target.value })
+  const roomsChangeHandler = e => dispatch({ type: ACTIONS.SET_ROOMS, payload: e.target.value })
+  const singleBedsChangeHandler = e => dispatch({ type: ACTIONS.SET_SINGLE_BEDS, payload: e.target.value })
+  const doubleBedsChangeHandler = e => dispatch({ type: ACTIONS.SET_DOUBLE_BEDS, payload: e.target.value })
 
   const addNewApartment = useCallback(async newApartment => {
     const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
-    newApartment).then(response => {
-      const newApartment = {
-        id: response.data.name,
-        title: state.title,
-        city: state.city,
-        rooms: state.rooms,
-        price: state.price,
-        description: state.description,
-        address: state.address,
-        status: state.status,
-      }
+    newApartment)
+    // .then(response => {
+    //   const newApartment = {
+    //     title: state.title,
+    //     city: state.city,
+    //     price: state.price,
+    //     distanceFromTheSea: state.distanceFromTheSea,
+    //     description: state.description,
+    //     address: state.address,
+    //     rooms: state.rooms,
+    //     singleBeds: state.singleBeds,
+    //     doubleBeds: state.doubleBeds,
+    //     status: state.status
+    //     // id: response.data.name,
+    //   }
 
-      // onSetNewApartment(newApartment)
-    })
+    //   // onSetNewApartment(newApartment)
+    // })
   })
 
   const submitFormHandler = e => {
@@ -95,13 +100,18 @@ const AddNewApartment = ({ onSetNewApartment }) => {
     const newApartment = {
       title: state.title,
       city: state.city,
-      rooms: state.rooms,
       price: state.price,
+      distanceFromTheSea: state.distanceFromTheSea,
+      rooms: state.rooms,
       description: state.description,
       address: state.address,
       status: state.status,
+      singleBeds: state.singleBeds,
+      doubleBeds: state.doubleBeds,
       reservedBy: state.reservedBy
     }
+
+    console.log(newApartment)
 
     addNewApartment(newApartment)
   }
@@ -115,8 +125,8 @@ const AddNewApartment = ({ onSetNewApartment }) => {
       <form onSubmit={submitFormHandler} className='grid grid-cols-1 sm:grid-cols-2 my-10  gap-12 p-2'>
         <input onChange={titleChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Title' />
         <input onChange={cityChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='City' />
-        <input onChange={roomsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Rooms' />
         <input onChange={priceChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Price' />
+        <input onChange={distanceFromTheSeaChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Distance From The Sea' />
         <input onChange={descriptionChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Description' />
         <input onChange={addressChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Address' />
         <div className=''>
@@ -126,8 +136,11 @@ const AddNewApartment = ({ onSetNewApartment }) => {
             value={facility}
             onChange={facility => setFacility(facility)}
           />
-          <br />
-          {/* <Select options={options} value={value2} onChange={o => setValue2(o)} /> */}
+        </div>
+        <div className='grid grid-cols-1 sm:grid-cols-3 sm:gap-4  gap-12'>
+          <input onChange={roomsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Rooms' />
+          <input onChange={singleBedsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Single Beds' />
+          <input onChange={doubleBedsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Double Beds' />
         </div>
         <button
           type='submit'
