@@ -2,13 +2,16 @@
   position: relative;
   width: 100%;
   min-height: 1.5em;
-  border: .05em solid #777;
   display: flex;
   align-items: center;
   gap: .5em;
-  padding: .5em;
-  border-radius: .25em;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 6px;
   outline: none;
+  background-color: #19193f;
+  color: #949cab;
 }
 
 .container:focus {
@@ -20,6 +23,7 @@
   display: flex;
   gap: .5em;
   flex-wrap: wrap;
+  padding-left: 4px;
 }
 
 .clear-btn {
@@ -37,10 +41,16 @@
   color: #333;
 }
 
+.divider-container {
+    background-color: red;
+}
+
 .divider {
   background-color: #777;
   align-self: stretch;
   width: .05em;
+  display: flex;
+  height: 25px;
 }
 
 .caret {
@@ -57,7 +67,6 @@
   display: none;
   max-height: 15em;
   overflow-y: auto;
-  border: .05em solid #777;
   border-radius: .25em;
   width: 100%;
   left: 0;
@@ -73,27 +82,29 @@
 .option {
   padding: .25em .5em;
   cursor: pointer;
+  color: white;
 }
 
-.option.selected {
+/* .option.selected {
   background-color: hsl(200, 100%, 70%);
-}
+} */
 
 .option.highlighted {
-  background-color: hsl(200, 100%, 50%);
+  background-color: #68106d;
   color: white
 }
 
 .option-badge {
   display: flex;
   align-items: center;
-  border: .05em solid #777;
   border-radius: .25em;
   padding: .15em .25em;
   gap: .25em;
   cursor: pointer;
   background: none;
   outline: none;
+  background-color: #68106d;
+  color: white;
 }
 
 .option-badge:hover,

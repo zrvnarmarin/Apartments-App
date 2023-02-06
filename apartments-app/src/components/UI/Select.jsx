@@ -30,39 +30,40 @@ export function Select({ multiple, value, onChange, options }) {
     if (isOpen) setHighlightedIndex(0)
   }, [isOpen])
 
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.target != containerRef.current) return
-      switch (e.code) {
-        case "Enter":
-        case "Space":
-          setIsOpen(prev => !prev)
-          if (isOpen) selectOption(options[highlightedIndex])
-          break
-        case "ArrowUp":
-        case "ArrowDown": {
-          if (!isOpen) {
-            setIsOpen(true)
-            break
-          }
+  // kod sam zakomentirao zbog buga za remove event listener!
+//   useEffect(() => {
+//     const handler = (e) => {
+//       if (e.target != containerRef.current) return
+//       switch (e.code) {
+//         case "Enter":
+//         case "Space":
+//           setIsOpen(prev => !prev)
+//           if (isOpen) selectOption(options[highlightedIndex])
+//           break
+//         case "ArrowUp":
+//         case "ArrowDown": {
+//           if (!isOpen) {
+//             setIsOpen(true)
+//             break
+//           }
 
-          const newValue = highlightedIndex + (e.code === "ArrowDown" ? 1 : -1)
-          if (newValue >= 0 && newValue < options.length) {
-            setHighlightedIndex(newValue)
-          }
-          break
-        }
-        case "Escape":
-          setIsOpen(false)
-          break
-      }
-    }
-    containerRef.current?.addEventListener("keydown", handler)
+//           const newValue = highlightedIndex + (e.code === "ArrowDown" ? 1 : -1)
+//           if (newValue >= 0 && newValue < options.length) {
+//             setHighlightedIndex(newValue)
+//           }
+//           break
+//         }
+//         case "Escape":
+//           setIsOpen(false)
+//           break
+//       }
+//     }
+//     containerRef.current.addEventListener("keydown", handler)
 
-    return () => {
-      containerRef.current?.removeEventListener("keydown", handler)
-    }
-  }, [isOpen, highlightedIndex, options])
+//     return () => {
+//       containerRef.current.removeEventListener("keydown", handler)
+//     }
+//   }, [isOpen, highlightedIndex, options])
 
   return (
     <div
@@ -71,23 +72,24 @@ export function Select({ multiple, value, onChange, options }) {
       onClick={() => setIsOpen(prev => !prev)}
       tabIndex={0}
       className={styles.container}
-    >
-      <span className={styles.value}>
+    > 
+        <span>Facilities</span>
+    <span className={styles.value}>
         {multiple
-          ? value.map(v => (
-              <button
+        ? value.map(v => (
+            <button
                 key={v.value}
                 onClick={e => {
-                  e.stopPropagation()
-                  selectOption(v)
+                e.stopPropagation()
+                selectOption(v)
                 }}
                 className={styles["option-badge"]}
-              >
+            >
                 {v.label}
                 <span className={styles["remove-btn"]}>&times;</span>
-              </button>
+            </button>
             ))
-          : value?.label}
+        : value?.label}
       </span>
       <button
         onClick={e => {
@@ -98,7 +100,9 @@ export function Select({ multiple, value, onChange, options }) {
       >
         &times;
       </button>
-      <div className={styles.divider}></div>
+      <div className="styles.divider-container">
+          <div className={styles.divider}></div>
+      </div>
       <div className={styles.caret}></div>
       <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
         {options.map((option, index) => (

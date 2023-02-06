@@ -65,7 +65,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
         status: state.status,
       }
 
-      onSetNewApartment(newApartment)
+      // onSetNewApartment(newApartment)
     })
   }
 
@@ -95,20 +95,19 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   ]
   
   const [value1, setValue1] = useState([options[0]])
-  const [value2, setValue2] = useState(options[0])
 
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Add New Apartment</h1>
 
-      <form onSubmit={submitFormHandler} className='grid rid-cols-1 sm:grid-cols-2 my-10  gap-12 p-2'>
+      <form onSubmit={submitFormHandler} className='grid grid-cols-1 sm:grid-cols-2 my-10  gap-12 p-2'>
         <input onChange={titleChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Title' />
         <input onChange={cityChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='City' />
         <input onChange={roomsChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Rooms' />
         <input onChange={priceChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Price' />
         <input onChange={descriptionChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Description' />
         <input onChange={addressChangeHandler} className='p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none' type="text" placeholder='Address' />
-        <>
+        <div className=''>
           <Select
             multiple
             options={options}
@@ -116,8 +115,8 @@ const AddNewApartment = ({ onSetNewApartment }) => {
             onChange={o => setValue1(o)}
           />
           <br />
-          <Select options={options} value={value2} onChange={o => setValue2(o)} />
-        </>
+          {/* <Select options={options} value={value2} onChange={o => setValue2(o)} /> */}
+        </div>
         <button
           type='submit'
           className='font-medium col-span-full text-2xl px-12 py-2 rounded-md text-[#f6f7f9] bg-[#68106d]'
