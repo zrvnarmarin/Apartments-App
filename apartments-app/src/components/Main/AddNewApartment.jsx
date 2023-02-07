@@ -1,5 +1,4 @@
 import React, { useReducer, useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Select  from '../UI/Select.jsx'
 import { facilities } from '../../data/facilities.js'
@@ -125,6 +124,7 @@ const AddNewApartment = ({ onSetNewApartment }) => {
         <div className=''>
           <Select
             multiple
+            name={'Facilities'}
             options={facilities}
             value={facility}
             onChange={facility => setFacility(facility)}

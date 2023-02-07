@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import styles from "../../styles/select.module.css"
 
-export function Select({ multiple, value, onChange, options }) {
+export function Select({ multiple, value, onChange, options, name }) {
   const [isOpen, setIsOpen] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(0)
   const containerRef = useRef(null)
@@ -73,7 +73,7 @@ export function Select({ multiple, value, onChange, options }) {
       tabIndex={0}
       className={styles.container}
     > 
-        <span>Facilities</span>
+        <span>{name}</span>
     <span className={styles.value}>
         {multiple
         ? value.map(v => (
