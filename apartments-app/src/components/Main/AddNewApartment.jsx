@@ -20,11 +20,9 @@ const ACTIONS = {
 const apartmentReducer = (state, action) =>  {
   switch (action.type) {
     case ACTIONS.SET_TITLE: {
-      // console.log(action.payload)
       return {...state, title: action.payload}
     }
     case ACTIONS.SET_CITY: {
-      // console.log(action.payload)
       return {...state, city: action.payload}
     }
     case ACTIONS.SET_PRICE: {
@@ -43,22 +41,17 @@ const apartmentReducer = (state, action) =>  {
       return {...state, rooms: action.payload}
     }
     case ACTIONS.SET_SINGLE_BEDS: {
-      console.log(action.payload)
       return {...state, singleBeds: action.payload}
     }
     case ACTIONS.SET_DOUBLE_BEDS: {
-      console.log(action.payload)
       return {...state, doubleBeds: action.payload}
     }
-    // case ACTIONS.SET_RESERVED_BY: {
-    //   return {...state, reservedBy: action.payload}
-    // }
   }
 }
 
 const AddNewApartment = ({ onSetNewApartment }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: '', price: '', status: 'free', description: '',
-  address: '', city: '', reservedBy: '', distanceFromTheSea: '', singleBeds: '', doubleBeds: '' })
+  address: '', city: '', distanceFromTheSea: '', singleBeds: '', doubleBeds: '' })
 
   const [facility, setFacility] = useState([facilities[0]])
 
@@ -108,10 +101,10 @@ const AddNewApartment = ({ onSetNewApartment }) => {
       status: state.status,
       singleBeds: state.singleBeds,
       doubleBeds: state.doubleBeds,
-      reservedBy: state.reservedBy
+      facilities: facility
     }
 
-    console.log(newApartment)
+    // console.log(newApartment)
 
     addNewApartment(newApartment)
   }

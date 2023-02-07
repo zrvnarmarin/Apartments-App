@@ -3,7 +3,7 @@ import FreeStatusIcon from '../../assets/FreeStatusIcon.png'
 import DownArrow from '../../assets/DownArrow.svg'
 import ConfirmDeletionApartment from './ConfirmDeletionApartment'
 
-const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment }) => {
+const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment, address, description, distanceFromTheSea, doubleBeds, singleBeds, status, title }) => {
   const [isRotatedButton, setIsRotatedButton] = useState(false)
   const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
 
@@ -14,7 +14,7 @@ const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment }) =
   return (
     <div key={id} className={`${ isRotatedButton ? 'bg-[#24245a]' : 'bg-[#19193f]'} hover:bg-[#24245a] text-xs ss:text-sm flex flex-col gap-2 rounded-xl p-4`}>
         <div className="flex items-center justify-center text-xl text-center">
-            <span>Lijepi suncani apartman  drfgbdf</span>
+            <span>{title}</span>
         </div>
 
         <div className="flex items-center justify-between">
@@ -43,23 +43,23 @@ const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment }) =
             <div className="flex flex-col gap-2 rounded-xl">
             <div className="flex items-center justify-between">
                 <span>DESCRIPTION: </span>
-                <span className="xs:overflow-x-auto">Neki apartman</span>
+                <span className="xs:overflow-x-auto">{description}</span>
             </div>
             <div className="flex items-center justify-between">
                 <span>ADDRESS:</span>
-                <span>Marmontova aleja 1</span>
-            </div>
-            <div className="flex items-center justify-between">
-                <span>DOUBLE BEDS: </span>
-                <span className="">3</span>
+                <span>{address}</span>
             </div>
             <div className="flex items-center justify-between">
                 <span>SINGLE BEDS: </span>
-                <span className="">4</span>
+                <span className="">{singleBeds}</span>
+            </div>
+            <div className="flex items-center justify-between">
+                <span>DOUBLE BEDS: </span>
+                <span className="">{doubleBeds}</span>
             </div>
             <div className="flex items-center justify-between">
                 <span>DISTANCE FROM THE SEA: </span>
-                <span className="bg-[#68106d] px-4 py-1 rounded-md">1.5 km</span>
+                <span className="bg-[#68106d] px-4 py-1 rounded-md">{distanceFromTheSea} km</span>
             </div>
             <div className='flex flex-col xs:flex-row gap-4 text-center col-span-full pt-12'>
                 <button className='w-full px-10 py-2 rounded-lg font-semibold  text-[#f6f7f9] bg-[#68106d] '>Change Details</button>

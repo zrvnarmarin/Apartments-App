@@ -7,6 +7,7 @@ import ApartmentTableHeader from './ApartmentTableHeader';
 import FreeStatusIcon from '../../assets/FreeStatusIcon.png'
 import DownArrow from '../../assets/DownArrow.svg'
 import MobileVersionApartment from './MobileVersionApartment';
+import { facilities } from './../../data/facilities';
 
 const Apartments = ({  }) => {
   const [apartments, setApartments] = useState([])
@@ -34,15 +35,21 @@ const Apartments = ({  }) => {
 
       for (let key in data) {
         loadedApartments.push({
+          address: data[key].address,
+          description: data[key].description,
+          distanceFromTheSea: data[key].distanceFromTheSea,
+          doubleBeds: data[key].doubleBeds,
+          singleBeds: data[key].singleBeds,
           id: key,
           status: data[key].status,
-          reservedBy: data[key].reservedBy,
           title: data[key].title,
           city: data[key].city,
           rooms: data[key].rooms,
-          price: data[key].price
+          price: data[key].price,
+          facilities: data[key].facilities
         })
       }
+      console.log(loadedApartments)
 
       setApartments(loadedApartments)
     } catch (error) { 
@@ -84,9 +91,16 @@ const Apartments = ({  }) => {
         { apartments.map((apartment, index) =>
           <div key={apartment.id} className='grid grid-cols-7 col-span-7 hover:bg-[#24245a]  duration-100 '>
             <Apartment
+              key={apartment.id}
+              address={apartment.address}
+              description={apartment.description}
+              distanceFromTheSea={apartment.distanceFromTheSea}
+              doubleBeds={apartment.doubleBeds}
+              singleBeds={apartment.singleBeds}
+              status={apartment.status}
+              title={apartment.title}
               index={index + 1}
               id={apartment.id}
-              status={apartment.status}
               city={apartment.city}
               rooms={apartment.rooms}
               price={apartment.price}
@@ -100,11 +114,18 @@ const Apartments = ({  }) => {
       <div className='flex flex-col gap-4 sm:hidden'>
         {apartments.map(apartment => 
           <MobileVersionApartment 
-            key={apartment.id} 
-            id={apartment.id} 
-            city={apartment.city} 
-            rooms={apartment.rooms} 
-            price={apartment.price}  
+            key={apartment.id}
+            address={apartment.address}
+            description={apartment.description}
+            distanceFromTheSea={apartment.distanceFromTheSea}
+            doubleBeds={apartment.doubleBeds}
+            singleBeds={apartment.singleBeds}
+            status={apartment.status}
+            title={apartment.title}
+            id={apartment.id}
+            city={apartment.city}
+            rooms={apartment.rooms}
+            price={apartment.price}
             onDeleteApartment={deleteApartment}
           />
         )}
