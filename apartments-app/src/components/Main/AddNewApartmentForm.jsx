@@ -48,7 +48,7 @@ const apartmentReducer = (state, action) =>  {
   }
 }
 
-const AddNewApartment = ({ onSetNewApartment }) => {
+const AddNewApartmentForm = ({ onSetNewApartment }) => {
   const [state, dispatch] = useReducer(apartmentReducer, { title: '', city: '', rooms: '', price: '', status: 'free', description: '',
   address: '', city: '', distanceFromTheSea: '', singleBeds: '', doubleBeds: '' })
 
@@ -146,4 +146,4 @@ const AddNewApartment = ({ onSetNewApartment }) => {
   )
 }
 
-export default AddNewApartment;
+export default AddNewApartmentForm;

@@ -6,7 +6,9 @@ import Apartment from './Apartment';
 import ApartmentTableHeader from './ApartmentTableHeader';
 import MobileVersionApartment from './MobileVersionApartment';
 import FoundNoApartmentSection from './FoundNoApartmentSection.jsx'
-import { apartmentsFilterOptions } from './../../data/apartmentsFilterOptions';
+import AddApartmentSection from './AddApartmentSection';
+import FilterApartments from './FilterApartments';
+import SortApartments from './SortApartments';
 
 const Apartments = () => {
   const [apartments, setApartments] = useState([])
@@ -92,18 +94,15 @@ const Apartments = () => {
 
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
       { !isLoading && 
-        <div className='flex items-center justify-end my-10'>
-          <select value={filter} onChange={filterChangeHandler} className="text-black">
-            {apartmentsFilterOptions.map(option => 
-              <option key={option.label} value={option.value}>{option.label}</option>  
-            )}
-          </select>
-          <input type="text" value={filterQuery} onChange={filterQueryChangeHandler} className="text-black"/>
-          <button
-            className='px-10 py-2 rounded-2xl font-semibold text-xl text-[#f6f7f9] bg-[#68106d]'
-          >
-            <Link to="/main/addNewApartment">+ Add</Link>
-          </button>
+        <div className='flex items-center justify-between my-10'>
+          <FilterApartments
+            filter={filter}
+            onFilterChange={filterChangeHandler}
+            filterQuery={filterQuery}
+            onFilterQueryChange={filterQueryChangeHandler}
+          />
+          <SortApartments />
+          <AddApartmentSection />
         </div> 
       }
 
@@ -134,7 +133,7 @@ const Apartments = () => {
       </div>
 
       <div className='flex flex-col gap-4 sm:hidden'>
-        {filteredApartments.map(apartment => 
+        { filteredApartments.map(apartment => 
           <MobileVersionApartment 
             key={apartment.id}
             address={apartment.address}
