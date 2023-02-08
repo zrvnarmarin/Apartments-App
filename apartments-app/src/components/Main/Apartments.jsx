@@ -5,12 +5,42 @@ import LoadingSpinnerSection from './LoadingSpinnerSection';
 import Apartment from './Apartment';
 import ApartmentTableHeader from './ApartmentTableHeader';
 import MobileVersionApartment from './MobileVersionApartment';
+import FoundNoApartmentSection from './FoundNoApartmentSection.jsx'
 import { apartmentsFilterOptions } from './../../data/apartmentsFilterOptions';
 
 const Apartments = () => {
   const [apartments, setApartments] = useState([])
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [filter, setFilter] = useState('all')
+  const [filterQuery, setFilterQuery] = useState('')
+
+  const filterChangeHandler = e => setFilter(e.target.value)
+  const filterQueryChangeHandler = e => setFilterQuery(e.target.value)
+
+  const filteredApartments = useMemo(() => {
+    return apartments.filter(apartment => {
+      if (filter === 'all') {
+        return apartments;
+      }
+      else if (filter === 'title') {
+        return apartment.title.toLowerCase().includes(filterQuery.toLowerCase());
+      }
+      else if (filter === 'address') {
+        return apartment.address.toLowerCase().includes(filterQuery.toLowerCase());
+      } 
+      else if (filter === 'city') {
+        return apartment.city.toLowerCase().includes(filterQuery.toLowerCase());
+      } 
+      else {
+        return apartments;
+      }
+    });
+  }, [apartments, filter, filterQuery]);
+
+  let errorContent = !isLoading && error && <p>{error}</p>
+  let noApartmentContent = !isLoading && apartments.length === 0 && <FoundNoApartmentSection />
+  let loadingContent = isLoading && <LoadingSpinnerSection />
 
   const deleteApartment = async id => {
     await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments/${id}.json`)
@@ -57,36 +87,10 @@ const Apartments = () => {
     fetchApartments()
   }, [])
 
-  const [filter, setFilter] = useState('all')
-  const [filterQuery, setFilterQuery] = useState('')
-
-  const filterChangeHandler = e => setFilter(e.target.value)
-  const filterQueryChangeHandler = e => setFilterQuery(e.target.value)
-
-  const filteredApartments = useMemo(() => {
-    return apartments.filter(apartment => {
-      if (filter === 'all') {
-        return apartments;
-      }
-      else if (filter === 'title') {
-        return apartment.title.toLowerCase().includes(filterQuery.toLowerCase());
-      }
-      else if (filter === 'address') {
-        return apartment.address.toLowerCase().includes(filterQuery.toLowerCase());
-      } 
-      else if (filter === 'city') {
-        return apartment.city.toLowerCase().includes(filterQuery.toLowerCase());
-      } 
-      else {
-        return apartments;
-      }
-    });
-  }, [apartments, filter, filterQuery]);
-
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
+
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
-      { isLoading && <LoadingSpinnerSection /> }
       { !isLoading && 
         <div className='flex items-center justify-end my-10'>
           <select value={filter} onChange={filterChangeHandler} className="text-black">
@@ -102,41 +106,32 @@ const Apartments = () => {
           </button>
         </div> 
       }
-      { !isLoading && apartments.length === 0 &&
-        <div className='flex items-center justify-center'>
-          <p className='italic text-4xl font-normal text-[#f6f7f9] text-left'>Found no apartments</p>
-        </div>
-      }
 
-      { !isLoading && error && <p>{error}</p> }
+      { noApartmentContent }
+      { loadingContent }
+      { errorContent }
 
-       { /* tablica apartmana */}
       <div className='hidden sm:block'>
-        <div className=' grid grid-cols-7 bg-[#19193f] text-[#f6f7f9] rounded-md '>
-          <ApartmentTableHeader />
-        </div>
+        <ApartmentTableHeader />
         { filteredApartments.map((apartment, index) =>
-          <div key={apartment.id} className='grid grid-cols-7 col-span-7 hover:bg-[#24245a]  duration-100 '>
-            <Apartment
-              key={apartment.id}
-              address={apartment.address}
-              description={apartment.description}
-              distanceFromTheSea={apartment.distanceFromTheSea}
-              doubleBeds={apartment.doubleBeds}
-              singleBeds={apartment.singleBeds}
-              status={apartment.status}
-              title={apartment.title}
-              index={index + 1}
-              id={apartment.id}
-              city={apartment.city}
-              rooms={apartment.rooms}
-              price={apartment.price}
-              onDeleteApartment={deleteApartment}
-            />
-          </div>
+          <Apartment
+            key={apartment.id}
+            address={apartment.address}
+            description={apartment.description}
+            distanceFromTheSea={apartment.distanceFromTheSea}
+            doubleBeds={apartment.doubleBeds}
+            singleBeds={apartment.singleBeds}
+            status={apartment.status}
+            title={apartment.title}
+            index={index + 1}
+            id={apartment.id}
+            city={apartment.city}
+            rooms={apartment.rooms}
+            price={apartment.price}
+            onDeleteApartment={deleteApartment}
+          />
         )}
       </div>
-
 
       <div className='flex flex-col gap-4 sm:hidden'>
         {filteredApartments.map(apartment => 
@@ -157,7 +152,6 @@ const Apartments = () => {
           />
         )}
       </div>
-
 
     </div>
   )

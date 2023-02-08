@@ -12,39 +12,39 @@ const Apartment = ({ id, index, status, city, rooms, price, title, onDeleteApart
     const openConfirmDeletionModal = () => setIsDeleteButtonPressed(true)
 
     return (
-        <div 
-            key={id} 
-            className={`grid grid-cols-7 col-span-7 hover:bg-[#24245a] duration-100 ${ isMoreInfoSectionOpened ? 'bg-[#24245a]' : 'bg-[#19193f'} ]}`}
-        >
-            <SummarizedInfoApartmentSection 
-                title={title}
-                index={index} 
-                status={status} 
-                city={city} 
-                rooms={rooms} 
-                price={price} 
-                isMoreInfoSectionOpened={isMoreInfoSectionOpened} 
-                onToggleMoreInfoSection={toggleMoreInfoSection} 
-            />
-
-            { isMoreInfoSectionOpened && 
-                <MoreInfoApartmentSection 
-                    description={description} 
-                    address={address} 
-                    doubleBeds={doubleBeds} 
-                    singleBeds={singleBeds} 
-                    distanceFromTheSea={distanceFromTheSea} 
-                    onOpenConfirmDeletionModal={openConfirmDeletionModal} 
+        <div className='grid grid-cols-7 col-span-7 hover:bg-[#24245a]  duration-100 '>
+            <div
+                key={id}
+                className={`grid grid-cols-7 col-span-7 hover:bg-[#24245a] duration-100 ${ isMoreInfoSectionOpened ? 'bg-[#24245a]' : 'bg-[#19193f'} ]}`}
+            >
+                <SummarizedInfoApartmentSection
+                    title={title}
+                    index={index}
+                    status={status}
+                    city={city}
+                    rooms={rooms}
+                    price={price}
+                    isMoreInfoSectionOpened={isMoreInfoSectionOpened}
+                    onToggleMoreInfoSection={toggleMoreInfoSection}
                 />
-            }
-
-            { isDeleteButtonPressed && 
-                <ConfirmDeletionApartment 
-                    id={id} 
-                    onDeleteApartment={onDeleteApartment} 
-                    onCloseDeletionConfirmModal={closeConfirmDeletionModal} 
-                /> 
-            }
+                { isMoreInfoSectionOpened &&
+                    <MoreInfoApartmentSection
+                        description={description}
+                        address={address}
+                        doubleBeds={doubleBeds}
+                        singleBeds={singleBeds}
+                        distanceFromTheSea={distanceFromTheSea}
+                        onOpenConfirmDeletionModal={openConfirmDeletionModal}
+                    />
+                }
+                { isDeleteButtonPressed &&
+                    <ConfirmDeletionApartment
+                        id={id}
+                        onDeleteApartment={onDeleteApartment}
+                        onCloseDeletionConfirmModal={closeConfirmDeletionModal}
+                    />
+                }
+            </div>
         </div>
     )
   }
