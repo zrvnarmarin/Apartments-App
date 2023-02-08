@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios';
 import LoadingSpinnerSection from './LoadingSpinnerSection';
 import Apartment from './Apartment';

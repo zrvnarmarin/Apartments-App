@@ -67,23 +67,6 @@ const AddNewApartmentForm = ({ onSetNewApartment }) => {
   const addNewApartment = useCallback(async newApartment => {
     const response = await axios.post('https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments.json',
     newApartment)
-    // .then(response => {
-    //   const newApartment = {
-    //     title: state.title,
-    //     city: state.city,
-    //     price: state.price,
-    //     distanceFromTheSea: state.distanceFromTheSea,
-    //     description: state.description,
-    //     address: state.address,
-    //     rooms: state.rooms,
-    //     singleBeds: state.singleBeds,
-    //     doubleBeds: state.doubleBeds,
-    //     status: state.status
-    //     // id: response.data.name,
-    //   }
-
-    //   // onSetNewApartment(newApartment)
-    // })
   })
 
   const submitFormHandler = e => {
@@ -102,8 +85,6 @@ const AddNewApartmentForm = ({ onSetNewApartment }) => {
       doubleBeds: state.doubleBeds,
       facilities: facility
     }
-
-    // console.log(newApartment)
 
     addNewApartment(newApartment)
   }
