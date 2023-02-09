@@ -3,7 +3,7 @@ import ConfirmDeletionApartment from './ConfirmDeletionApartment';
 import SummarizedInfoApartmentSection from './SummarizedInfoApartmentSection';
 import MoreInfoApartmentSection from './MoreInfoApartmentSection';
 
-const Apartment = ({ id, index, status, city, rooms, price, title, onDeleteApartment, description, address, doubleBeds, singleBeds, distanceFromTheSea }) => {
+const Apartment = ({ id, index, status, city, rooms, price, title, onDeleteApartment, description, address, doubleBeds, singleBeds, distanceFromTheSea, facilities }) => {
     const [isMoreInfoSectionOpened, setIsMoreInfoSectionOpened] = useState(false)
     const toggleMoreInfoSection = () => setIsMoreInfoSectionOpened(prev => !prev)
 
@@ -35,6 +35,7 @@ const Apartment = ({ id, index, status, city, rooms, price, title, onDeleteApart
                         singleBeds={singleBeds}
                         distanceFromTheSea={distanceFromTheSea}
                         onOpenConfirmDeletionModal={openConfirmDeletionModal}
+                        facilities={facilities}
                     />
                 }
                 { isDeleteButtonPressed &&

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MoreInfoApartmentSection = ({ description, address, doubleBeds, singleBeds, distanceFromTheSea, onOpenConfirmDeletionModal }) => {
+const MoreInfoApartmentSection = ({ facilities, description, address, doubleBeds, singleBeds, distanceFromTheSea, onOpenConfirmDeletionModal }) => {
   return (
     <>
         <>
@@ -22,6 +22,14 @@ const MoreInfoApartmentSection = ({ description, address, doubleBeds, singleBeds
         <>
             <span className='flex items-center bg-[#19193f] text-center col-span-1  py-2 text-sm md:text-md lg:text-lg xl:text-xl'>DISTANCE FROM THE SEA: </span>
             <span className='flex items-center bg-[#19193f] justify-end col-start-2 col-span-full py-2 pr-10 text-sm md:text-md lg:text-lg xl:text-xl'>{distanceFromTheSea} km </span>
+        </>
+        <>
+            <span className='flex items-center bg-[#19193f] justify-center text-center col-span-1  py-2 text-sm md:text-md lg:text-lg xl:text-xl'>FACILITIES: </span>
+            <span className='flex items-center bg-[#19193f] text-center justify-end col-start-2 col-span-full py-2 pr-10 text-sm md:text-md lg:text-lg xl:text-xl'>
+                {facilities.map(facility => 
+                    <span key={facility.label} className='m-1 rounded-md py-1 px-2 bg-[#2f18e5]'>{facility.label}</span>
+                )}
+            </span>
         </>
         <>
             <span className='flex items-center gap-6 justify-end bg-[#19193f] text-center col-span-full pr-10 py-2 text-sm md:text-md lg:text-lg xl:text-xl'>

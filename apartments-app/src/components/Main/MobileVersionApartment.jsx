@@ -3,7 +3,7 @@ import FreeStatusIcon from '../../assets/FreeStatusIcon.png'
 import DownArrow from '../../assets/DownArrow.svg'
 import ConfirmDeletionApartment from './ConfirmDeletionApartment'
 
-const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment, address, description, distanceFromTheSea, doubleBeds, singleBeds, status, title }) => {
+const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment, address, description, distanceFromTheSea, doubleBeds, singleBeds, status, title, facilities }) => {
   const [isRotatedButton, setIsRotatedButton] = useState(false)
   const toggleButtonRotation = () => setIsRotatedButton(prev => !prev)
 
@@ -60,6 +60,16 @@ const MobileVersionApartment = ({ id, city, rooms, price, onDeleteApartment, add
             <div className="flex items-center justify-between">
                 <span>DISTANCE FROM THE SEA: </span>
                 <span className="bg-[#68106d] px-4 py-1 rounded-md">{distanceFromTheSea} km</span>
+            </div>
+            <div className="flex items-center justify-between">
+                <span>FACILITIES: </span>
+                <span className="flex flex-row gap-1">
+                    {facilities.map(facility => 
+                        <span className='bg-[#2f18e5] px-4 py-1 rounded-md' key={facility.label}>
+                            {facility.label}
+                        </span>
+                    )}
+                </span>
             </div>
             <div className='flex flex-col xs:flex-row gap-4 text-center col-span-full pt-12'>
                 <button className='w-full px-10 py-2 rounded-lg font-semibold  text-[#f6f7f9] bg-[#68106d] '>Change Details</button>

@@ -15,7 +15,7 @@ const Apartments = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [filter, setFilter] = useState('all')
   const [filterQuery, setFilterQuery] = useState('')
-  const [sort, setSort] = useState('id')
+  const [sort, setSort] = useState('price')
   const [sortOrder, setSortOrder] = useState('ascending')
   
   const filterChangeHandler = e => setFilter(e.target.value)
@@ -23,6 +23,10 @@ const Apartments = () => {
 
   const sortChangeHandler = e => setSort(e.target.value)
   const sortOrderChangeHandler = e => setSortOrder(e.target.value)
+
+  let errorContent = !isLoading && error && <p>{error}</p>
+  let noApartmentContent = !isLoading && apartments.length === 0 && <FoundNoApartmentSection />
+  let loadingContent = isLoading && <LoadingSpinnerSection />
 
   const filteredApartments = useMemo(() => {
     return apartments.filter(apartment => {
@@ -43,10 +47,6 @@ const Apartments = () => {
       }
     });
   }, [apartments, filter, filterQuery]);
-
-  let errorContent = !isLoading && error && <p>{error}</p>
-  let noApartmentContent = !isLoading && apartments.length === 0 && <FoundNoApartmentSection />
-  let loadingContent = isLoading && <LoadingSpinnerSection />
 
   const deleteApartment = async id => {
     await axios.delete(`https://apartments-app-6a66f-default-rtdb.firebaseio.com/apartments/${id}.json`)
@@ -206,6 +206,7 @@ const Apartments = () => {
             city={apartment.city}
             rooms={apartment.rooms}
             price={apartment.price}
+            facilities={apartment.facilities}
             onDeleteApartment={deleteApartment}
           />
         )}
@@ -226,6 +227,7 @@ const Apartments = () => {
             city={apartment.city}
             rooms={apartment.rooms}
             price={apartment.price}
+            facilities={apartment.facilities}
             onDeleteApartment={deleteApartment}
           />
         )}
