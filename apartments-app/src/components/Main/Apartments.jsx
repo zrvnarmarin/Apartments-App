@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import axios from 'axios';
 import LoadingSpinnerSection from './LoadingSpinnerSection';
 import Apartment from './Apartment';
@@ -6,8 +6,8 @@ import ApartmentTableHeader from './ApartmentTableHeader';
 import MobileVersionApartment from './MobileVersionApartment';
 import FoundNoApartmentSection from './FoundNoApartmentSection.jsx'
 import AddApartmentSection from './AddApartmentSection';
-import FilterApartments from './FilterApartments';
-import SortApartments from './SortApartments';
+import FilterApartmentsSection from './FilterApartmentsSection';
+import SortApartmentsSection from './SortApartmentsSection';
 
 const Apartments = () => {
   const [apartments, setApartments] = useState([])
@@ -15,9 +15,14 @@ const Apartments = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [filter, setFilter] = useState('all')
   const [filterQuery, setFilterQuery] = useState('')
-
+  const [sort, setSort] = useState('price')
+  const [sortOrder, setSortOrder] = useState('ascending')
+  
   const filterChangeHandler = e => setFilter(e.target.value)
   const filterQueryChangeHandler = e => setFilterQuery(e.target.value)
+
+  const sortChangeHandler = e => setSort(e.target.value)
+  const sortOrderChangeHandler = e => setSortOrder(e.target.value)
 
   const filteredApartments = useMemo(() => {
     return apartments.filter(apartment => {
@@ -84,9 +89,59 @@ const Apartments = () => {
     setIsLoading(false)
   }
 
+  const sortByPriceAscending = useCallback(() => {
+    const copy = [...apartments]
+    copy.sort((a, b) => a.price - b.price)
+    setApartments(copy)
+  })
+
+  const sortByPriceDescending = useCallback(() => {
+    const copy = [...apartments]
+    copy.sort((a, b) => b.price - a.price)
+    setApartments(copy)
+  })
+
+  const sortByRoomsAscending = useCallback(() => {
+    const copy = [...apartments]
+    copy.sort((a, b) => a.rooms - b.rooms)
+    setApartments(copy)
+  })
+
+  const sortByRoomsDescending = useCallback(() => {
+    const copy = [...apartments]
+    copy.sort((a, b) => b.rooms - a.rooms)
+    setApartments(copy)
+  })
+
   useEffect(() => {
     fetchApartments()
   }, [])
+
+  useEffect(() => {
+    // console.log(sort)
+    // console.log(sortOrder)
+
+    if (sort === 'price' && sortOrder === 'ascending') {
+      // setSortOrder('ascending')
+      sortByPriceAscending()
+    }
+
+    if (sort === 'price' && sortOrder === 'descending') {
+      // setSortOrder('ascending')
+      sortByPriceDescending()
+    }
+
+    if (sort === 'rooms' && sortOrder === 'ascending') {
+      // setSortOrder('ascending')
+      sortByRoomsAscending()
+    }
+
+    if (sort === 'rooms' && sortOrder === 'descending') {
+      // setSortOrder('ascending')
+      sortByRoomsDescending()
+    }
+
+  }, [sort, sortOrder])
 
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-36 md:px-36'>
@@ -94,13 +149,20 @@ const Apartments = () => {
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
       { !isLoading && 
         <div className='flex items-center justify-between my-10'>
-          <FilterApartments
-            filter={filter}
-            onFilterChange={filterChangeHandler}
-            filterQuery={filterQuery}
-            onFilterQueryChange={filterQueryChangeHandler}
-          />
-          <SortApartments />
+          <div className='flex flex-row gap-16'>
+            <FilterApartmentsSection
+              filter={filter}
+              filterQuery={filterQuery}
+              onFilterChange={filterChangeHandler}
+              onFilterQueryChange={filterQueryChangeHandler}
+            />
+            <SortApartmentsSection
+              sort={sort}
+              sortOrder={sortOrder}
+              onSortChange={sortChangeHandler} 
+              onSortOrderChange={sortOrderChangeHandler}
+            />
+          </div>
           <AddApartmentSection />
         </div> 
       }
