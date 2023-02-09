@@ -8,7 +8,7 @@ import FrontPage from "./components/Front/FrontPage"
 import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 import Apartments from "./components/Main/Apartments"
-import Tags from "./components/Main/Tags"
+import Facilities from "./components/Main/Facilities"
 import ErrorPage from './components/Error/ErrorPage.jsx'
 import RegisteredUsers from "./components/Main/RegisteredUsers"
 import AddNewApartmentForm from "./components/Main/AddNewApartmentForm"
@@ -40,7 +40,7 @@ const App = () => {
           <Route path="apartments" element={<Apartments isModalOpen={isNewApartmentModalOpen} onModalClose={closeNewApartmentModal} onModalOpen={openNewApartmentModal} />} >
           </Route>
           <Route path="addNewApartment" element={<AddNewApartmentForm />} />
-          <Route path="tags" element={<Tags />} />
+          <Route path="facilities" element={<Facilities />} />
           <Route path="registeredUsers" element={<RegisteredUsers />} />
         </Route>
       </Routes>
