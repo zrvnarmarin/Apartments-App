@@ -15,7 +15,7 @@ const Apartments = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [filter, setFilter] = useState('all')
   const [filterQuery, setFilterQuery] = useState('')
-  const [sort, setSort] = useState('price')
+  const [sort, setSort] = useState('id')
   const [sortOrder, setSortOrder] = useState('ascending')
   
   const filterChangeHandler = e => setFilter(e.target.value)
@@ -82,6 +82,11 @@ const Apartments = () => {
         })
       }
 
+      if (sort === 'price' && sortOrder === 'ascending') 
+      {
+        loadedApartments.sort((a, b) => a.price - b.price)
+      }
+
       setApartments(loadedApartments)
     } catch (error) { 
       setError(error.message) 
@@ -113,32 +118,45 @@ const Apartments = () => {
     setApartments(copy)
   })
 
+  const sortByIdIndexDescending = () => {
+    const copy = [...apartments]
+    copy.sort((a, b) => b.id - a.id)
+    setApartments(copy)
+  }
+
+  const sortByIdIndexAscending = () => {
+    const copy = [...apartments]
+    copy.sort((a, b) => a.id - b.id)
+    setApartments(copy)
+  }
+
   useEffect(() => {
     fetchApartments()
   }, [])
 
   useEffect(() => {
-    // console.log(sort)
-    // console.log(sortOrder)
-
     if (sort === 'price' && sortOrder === 'ascending') {
-      // setSortOrder('ascending')
       sortByPriceAscending()
     }
 
     if (sort === 'price' && sortOrder === 'descending') {
-      // setSortOrder('ascending')
       sortByPriceDescending()
     }
 
     if (sort === 'rooms' && sortOrder === 'ascending') {
-      // setSortOrder('ascending')
       sortByRoomsAscending()
     }
 
     if (sort === 'rooms' && sortOrder === 'descending') {
-      // setSortOrder('ascending')
       sortByRoomsDescending()
+    }
+
+    if (sort === 'id' && sortOrder === 'ascending') {
+      sortByIdIndexAscending()
+    }
+
+    if (sort === 'id' && sortOrder === 'descending') {
+      sortByIdIndexDescending()
     }
 
   }, [sort, sortOrder])
@@ -148,8 +166,8 @@ const Apartments = () => {
 
       <h1 className='border-b-[#374151] border-b-[1px] pb-4 italic text-4xl font-normal text-[#f6f7f9] text-left'>Apartments</h1>
       { !isLoading && 
-        <div className='flex items-center justify-between my-10'>
-          <div className='flex flex-row gap-16'>
+        <div className='flex flex-col lg:flex-row items-start lg:justify-between my-10'>
+          <div className='flex flex-col md:flex-row lg:flex-row gap-4 lg:gap-16 flex-wrap'>
             <FilterApartmentsSection
               filter={filter}
               filterQuery={filterQuery}

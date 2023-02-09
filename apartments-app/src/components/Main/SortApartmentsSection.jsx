@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { apartmentsSortOptions } from '../../data/apartmentSortOptions';
 
 const SortApartmentsSection = ({ sort, sortOrder, onSortChange, onSortOrderChange }) => {
-  console.log(sort, sortOrder)
+  // console.log(sort, sortOrder)
 
   return (
     <div className='flex flex-row gap-4'>
@@ -16,11 +16,16 @@ const SortApartmentsSection = ({ sort, sortOrder, onSortChange, onSortOrderChang
           <option key={option.label} value={option.value}>{option.label}</option>
         )}
       </select>
-      <label htmlFor="ascending">Ascending</label>
-      <input onChange={onSortOrderChange} value="ascending" type="radio" name="sortOrder" id='ascending' />
-
-      <label htmlFor="descending">Descending</label>
-      <input onChange={onSortOrderChange} value="descending" type="radio" name="sortOrder" id='descending' />
+      <div className='flex flex-col'>
+        <div className='flex flex-row gap-2'>
+          <input onChange={onSortOrderChange} value="ascending" type="radio" name="sortOrder" id='ascending' checked={sortOrder === 'ascending'} />
+          <label htmlFor="ascending">Ascending</label>
+        </div>
+        <div className='flex flex-row gap-2'>
+          <input onChange={onSortOrderChange} value="descending" type="radio" name="sortOrder" id='descending' checked={sortOrder === 'descending'} />
+          <label htmlFor="descending">Descending</label>
+        </div>
+      </div>
     </div>
   )
 }
