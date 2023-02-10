@@ -161,6 +161,8 @@ const Apartments = () => {
 
   }, [sort, sortOrder])
 
+  apartments.map(ap => console.log(ap.facilities))
+
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-24 md:px-36'>
 

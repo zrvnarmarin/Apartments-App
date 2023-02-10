@@ -26,7 +26,7 @@ const FilterApartmentsSection = ({ filter, onFilterChange, filterQuery, onFilter
           <option key={option.label} value={option.value}>{option.label}</option>
         )}
       </select>
-      { isFilterQueryVisible && <input ref={filterQueryRef} className="p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none" type="text" value={filterQuery} onChange={onFilterQueryChange} />}
+      { isFilterQueryVisible && <input ref={filterQueryRef} placeholder={`Enter the ${filter}...`} className="p-2 bg-[#19193f] focus:bg-[#24245a] rounded-md outline-none" type="text" value={filterQuery} onChange={onFilterQueryChange} />}
     </div>
   )
 }
