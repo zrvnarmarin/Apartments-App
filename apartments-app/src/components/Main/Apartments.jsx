@@ -8,6 +8,7 @@ import FoundNoApartmentSection from './FoundNoApartmentSection.jsx'
 import AddApartmentSection from './AddApartmentSection';
 import FilterApartmentsSection from './FilterApartmentsSection';
 import SortApartmentsSection from './SortApartmentsSection';
+import { useSelector, useDispatch } from 'react-redux'
 
 const Apartments = () => {
   const [apartments, setApartments] = useState([])
@@ -53,7 +54,6 @@ const Apartments = () => {
     
     setApartments(apartments.filter(apartment => apartment.id !== id))
   }
-
   const fetchApartments = async () => {
     setIsLoading(true)
     setError(null)
@@ -80,6 +80,7 @@ const Apartments = () => {
           price: data[key].price,
           facilities: data[key].facilities
         })
+
       }
 
       if (sort === 'price' && sortOrder === 'ascending') 
@@ -160,8 +161,6 @@ const Apartments = () => {
     }
 
   }, [sort, sortOrder])
-
-  apartments.map(ap => console.log(ap.facilities))
 
   return (
     <div className='flex flex-col text-white font-poppins justify-center px-4 pt-24 md:px-36'>
